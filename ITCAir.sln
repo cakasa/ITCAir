@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29613.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ITCAir.Web", "ITCAir.Web\ITCAir.Web.csproj", "{BEAB4CBC-D38D-4F8B-A462-C5EA518C0866}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ITCAir.Data", "ITCAir.Data\ITCAir.Data.csproj", "{87E63DE3-6DE3-426A-BD74-B248D62D4785}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BEAB4CBC-D38D-4F8B-A462-C5EA518C0866}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BEAB4CBC-D38D-4F8B-A462-C5EA518C0866}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BEAB4CBC-D38D-4F8B-A462-C5EA518C0866}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BEAB4CBC-D38D-4F8B-A462-C5EA518C0866}.Release|Any CPU.Build.0 = Release|Any CPU
+		{87E63DE3-6DE3-426A-BD74-B248D62D4785}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{87E63DE3-6DE3-426A-BD74-B248D62D4785}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{87E63DE3-6DE3-426A-BD74-B248D62D4785}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{87E63DE3-6DE3-426A-BD74-B248D62D4785}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7937205D-17D1-4B69-BF33-DE463585F07B}
+	EndGlobalSection
+EndGlobal

@@ -1,46 +1,46 @@
-﻿@model ITCAir.Web.Models.Reservations.FirstStepReservationModel 
+﻿@model ITCAir.Web.Models.Reservations.FirstStepReservationModel
 @{
     ViewData["Title"] = "Index";
 }
-    <div class="row">
-        <div class="row">
-            <form asp-controller="Reservations" asp-action="ProcessFirstStepReservation">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <div class="form-group">
-                    <label asp-for="From" title="From" class="control-label"></label>
-                    <input asp-for="From" class="form-control" />
-                    <span asp-validation-for="From" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="To" class="control-label"></label>
-                    <input asp-for="To" class="form-control" />
-                    <span asp-validation-for="To" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="DepartureDate" class="control-label"></label>
-                    @Html.EditorFor(model => model.DepartureDate, new { htmlAttributes = new { @class = "form-control", @type = "date" } })
-                    <span asp-validation-for="DepartureDate" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="ReturnDate" class="control-label"></label>
-                    @Html.EditorFor(model => model.ReturnDate, new { htmlAttributes = new { @class = "form-control", @type = "date" } })
-                    <span asp-validation-for="ReturnDate" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label for="oneWay" asp-for="OneWay" class="control-label">One Way?  </label>
-                    @Html.CheckBox("oneWay", false)
-                </div>
-                <div class="form-group">
-                    <label asp-for="People" class="control-label"></label>
-                    <input asp-for="People" class="form-control" />
-                    <span asp-validation-for="People" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <input type="submit" value="GO" class="btn btn-primary" />
-                </div>
-            </form>
+<style>
+    .One input {
+        float: left;
+    }
+</style>
+<div class="One">
+    <form asp-controller="Reservations" asp-action="ProcessFirstStepReservationOnTop">
+        <div class="form-row">
+            <div class="form-group col-md-2">
+                <label asp-for="From" for="inputFrom">From</label>
+                <input asp-for="From" class="form-control" id="inputFrom">
+                <span asp-validation-for="From" class="text-danger"></span>
+            </div>
+            <div class="form-group col-md-2">
+                <label asp-for="To" for="inputTo">To</label>
+                <input asp-for="To" class="form-control" id="inputTo">
+                <span asp-validation-for="To" class="text-danger"></span>
+            </div>
+            <div class="form-group col-md-2">
+                <label asp-for="ReturnDate" class="control-label"></label>
+                @Html.EditorFor(model => model.DepartureDate, new { htmlAttributes = new { @class = "form-control", @type = "date" } })
+                <span asp-validation-for="DepartureDate" class="text-danger"></span>
+            </div>
+            <div class="form-group col-md-2">
+                <label asp-for="ReturnDate" class="control-label"></label>
+                @Html.EditorFor(model => model.ReturnDate, new { htmlAttributes = new { @class = "form-control", @type = "date" } })
+                <span asp-validation-for="ReturnDate" class="text-danger"></span>
+            </div>
+            <div class="form-group col-md-2">
+                <label asp-for="People" class="control-label"></label>
+                <input asp-for="People" class="form-control" />
+                <span asp-validation-for="People" class="text-danger"></span>
+            </div>
+            <div class="form-group col-md-2">
+                <input type="submit" value="GO" class="btn btn-primary" />
+            </div>
         </div>
-    </div>
+    </form>
 
-<h1>@Model.From @Model.To @Model.People @Model.OneWay @Model.DepartureDate @Model.ReturnDate</h1>
+</div>
+<h1>@Model.From @Model.To @Model.People @Model.OneWay @Model.DepartureDate @Model.ReturnDate </h1>
 

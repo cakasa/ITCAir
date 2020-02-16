@@ -53,5 +53,11 @@ namespace ITCAir.Web.Controllers
         {
             return View("SignIn");
         }
+
+        [HttpGet]
+        public IActionResult Users()
+        {
+            return View();
+        }
     }
 }

@@ -18,11 +18,12 @@ namespace ITCAir.Web.Controllers
 
         [HttpPost]
         [ReservationDate]
-        public IActionResult ProcessFirstStepReservation(FirstStepReservationModel model)
+        public IActionResult ProcessFirstStepReservation(FirstStepReservationModel model,bool oneWay)
         {
             if (ModelState.IsValid)
             {
-                return View("ReservationsFlights");
+                model.OneWay = oneWay;
+                return View("ReservationsFlights",model);
             }
             return View("Index");
         }

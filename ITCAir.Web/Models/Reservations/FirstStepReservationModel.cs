@@ -11,12 +11,16 @@ namespace ITCAir.Web.Models.Reservations
     {
         [Required]
         public string From { get; set; }
+
         [Required]
         public string To { get; set; }
+
         [Required]
         [ReservationDate]
         public DateTime Date { get; set; }
+
         public bool OneWay { get; set; }
+
         [Required]
         [Range(1, int.MaxValue, ErrorMessage = "Negative values or 0 are not accepted")]
         public int People { get; set; }

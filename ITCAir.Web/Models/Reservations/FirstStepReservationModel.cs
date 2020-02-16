@@ -17,7 +17,9 @@ namespace ITCAir.Web.Models.Reservations
 
         [Required]
         [ReservationDate]
-        public DateTime Date { get; set; }
+        public DateTime DepartureDate { get; set; }
+
+        public DateTime ReturnDate { get; set; }
 
         public bool OneWay { get; set; }
 

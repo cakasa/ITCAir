@@ -15,12 +15,12 @@ namespace ITCAir.Web.Attributes
 
         protected override ValidationResult IsValid(object value,
            ValidationContext validationContext)
-        {
+    {
             int modelDay = (int)DateTime.Parse(value.ToString()).Day;
             int modelMonth = (int)DateTime.Parse(value.ToString()).Month;
             int modelYear = (int)DateTime.Parse(value.ToString()).Year;
 
-            if (modelDay < Day || modelMonth < Month || modelYear < Year)
+            if (modelDay < Day && modelMonth < Month || modelYear < Year)
             {
                 return new ValidationResult(ErrorMessage);
             }

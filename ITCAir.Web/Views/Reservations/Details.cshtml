@@ -1,0 +1,60 @@
+﻿@using ITCAir.Web.Models.Flights
+@model FlightDetailsViewModel
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Flight</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.From)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.From)
+        </dd>
+        <dt class="col-sm-2">
+            Date
+        </dt>
+        <dd class="col-sm-10">
+            @Model.DepartureTime.Date.ToLongDateString()
+        </dd>
+        <dt class="col-sm-2">
+            DepartureTime
+        </dt>
+        <dd class="col-sm-10">
+            @Model.DepartureTime.ToShortTimeString()
+        </dd>
+        <dt class="col-sm-2">
+            ArrivalTime
+        </dt>
+        <dd class="col-sm-10">
+            @Model.Arrival.ToShortTimeString()
+        </dd>
+        <dt class="col-sm-2">
+            Capacity of Economy seats
+        </dt>
+        <dd class="col-sm-10">
+            @Model.CapacityEconomy
+        </dd>
+        <dt class="col-sm-2">
+            Capacity of Business seats
+        </dt>
+        <dd class="col-sm-10">
+            @Model.CapacityBusiness
+        </dd>
+        <dt class="col-sm-2">
+            Pilot Name
+        </dt>
+        <dd class="col-sm-10">
+            @Model.PilotName
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Book</a> |
+    <a asp-controller="Reservations" asp-action="ReturnFromEdit">Back to List</a>
+</div>

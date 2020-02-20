@@ -8,6 +8,7 @@ namespace ITCAir.Web.Controllers
 {
     public class IndexController : Controller
     {
+        // Zashto e IndexController??
         public IActionResult Index()
         {
             return View();

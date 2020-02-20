@@ -13,6 +13,7 @@ namespace ITCAir.Web.Controllers
 {
     public class ReservationsController : Controller
     {
+        private  FirstStepReservationModel ReadetModel;
         private readonly ITCAirContext context;
         private const int PageSize = 10;
 
@@ -26,13 +27,14 @@ namespace ITCAir.Web.Controllers
         {
             return View();
         }
-
+        //When the user type the info of the first page
         [HttpPost]
         [ReservationDate]
         public IActionResult ProcessFirstStepReservation(FirstStepReservationModel model, bool oneWay)
         {
             if (ModelState.IsValid)
             {
+                Session["user"] = 123;
                 GetViewData( model);
 
                 model.OneWay = oneWay;
@@ -61,14 +63,41 @@ namespace ITCAir.Web.Controllers
             now.Pager.PagesCount = (int)Math.Ceiling(context.Flights.Count() / (double)PageSize);
             this.ViewData["AllFlightInfo"] = now;
         }
+
         public IActionResult ProcessFirstStepReservationOnTop(FirstStepReservationModel model, bool oneWay)
         {
             if (ModelState.IsValid)
             {
+                this.ReadetModel = model;
                 GetViewData(model);
                 return View("ReservationsFlights", model);
             }
             return View("ReservationsFlights", model);
+        }
+
+        public IActionResult Details(int Id)
+        {
+            var currentFlight = this.context.Flights.First(c => c.Id == Id);
+            FlightDetailsViewModel flightDetailsViewModel = new FlightDetailsViewModel()
+            {
+                Id = currentFlight.Id,
+                From = currentFlight.From,
+                To = currentFlight.To,
+                DepartureTime = currentFlight.DepartureTime,
+                Arrival = currentFlight.Arrival,
+                PlaneId = currentFlight.PlaneId,
+                PilotName = currentFlight.PilotName,
+                CapacityBusiness = currentFlight.CapacityBusiness,
+                CapacityEconomy = currentFlight.CapacityEconomy
+            };
+            
+            return View(flightDetailsViewModel);
+        }
+
+        public IActionResult ReturnFromEdit()
+        {
+            GetViewData(ReadetModel);
+            return View("ReservationsFlights", ReadetModel);
         }
     }
 }

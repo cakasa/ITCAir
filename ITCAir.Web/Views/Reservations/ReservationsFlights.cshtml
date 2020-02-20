@@ -3,8 +3,8 @@
 @inject AllFlightsViewModel Flights
 @{
     ViewData["Title"] = "Index";
-    this.Flights = (AllFlightsViewModel) this.ViewData["AllFlightInfo"];
-    
+    this.Flights = (AllFlightsViewModel)this.ViewData["AllFlightInfo"];
+
 }
 <style>
     .One input {
@@ -66,33 +66,31 @@
     <h2>From @Model.From To @Model.To</h2>
     <tbody>
         @foreach (FlightViewModel item in Flights.Items)
-            {
-        <tr>
-            <td>
-                @item.Departure.Date.ToLongDateString();
-            </td>
-            <td>
-                @item.Departure.ToShortTimeString()
-            </td>
-            <td>
-                @item.Arrival.ToShortTimeString()
-            </td>
-            <td>
-                <a asp-action="Edit">Edit</a> |
-                <a asp-action="Delete">Delete</a>@*asp-route-id="@item.Id"*@
-            </td>
-        </tr>
+        {
+            <tr>
+                <td>
+                    @item.Departure.Date.ToLongDateString();
+                </td>
+                <td>
+                    @item.Departure.ToShortTimeString()
+                </td>
+                <td>
+                    @item.Arrival.ToShortTimeString()
+                </td>
+                <td>
+                    <a asp-controller="Reservations" asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete">Delete</a>@*asp-route-id="@item.Id"*@
+                </td>
+            </tr>
         }
     </tbody>
     <ul class="pagination">
         @for (var i = 1; i <= Flights.Pager.PagesCount; i++)
-            {
-                <li class="page-item @(i == Flights.Pager.CurrentPage ? "active" : "")">
-                    <a asp-route-Pager.CurrentPage="@i" class="page-link">@i</a>
-                </li>
-            }
+        {
+            <li class="page-item @(i == Flights.Pager.CurrentPage ? "active" : "")">
+                <a asp-route-Pager.CurrentPage="@i" class="page-link">@i</a>
+            </li>
+        }
     </ul>
 </table>
-
-<p>@Model.From @Model.To @Model.People @Model.OneWay @Model.DepartureDate @Model.ReturnDate </p>
 

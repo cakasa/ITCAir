@@ -34,7 +34,7 @@ namespace ITCAir.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                Session["user"] = 123;
+               // Session["user"] = 123;
                 GetViewData( model);
 
                 model.OneWay = oneWay;

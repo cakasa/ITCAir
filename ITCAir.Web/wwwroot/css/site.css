@@ -12,14 +12,18 @@ a {
   color: #0366d6;
 }
 
+h1 h2 h3 h4 h5 h6 p{
+    color: #fff;
+}
+
 .navbar{
     color: purple;
 }
 
 .btn-primary {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+    color: #4a0664;
+    background-color: #fff;
+    border-color: purple;
 }
 
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
@@ -55,11 +59,18 @@ button.accept-policy {
   line-height: inherit;
 }
 
+bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    min-width: 100%;
+    min-height: 100%;
+}
 /* Sticky footer styles
 -------------------------------------------------- */
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {

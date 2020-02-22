@@ -4,13 +4,13 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ITCAir.Web.Models
+namespace ITCAir.Web.Models.User
 {
     public class UserSignInViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "Please enter a username!")]
         public string Username { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Please enter a password!")]
         public string Password { get; set; }
     }
 }

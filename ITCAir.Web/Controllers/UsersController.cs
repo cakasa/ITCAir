@@ -31,13 +31,12 @@ namespace ITCAir.Web.Controllers
         public IActionResult SignIn(UserSignInViewModel user)
         {
             if (context.Users.Any(x => x.Username == user.Username && x.Password == user.Password))
-            {
-                // Do something
+            { 
                 return View("Index");
             }
             else
             {
-                ViewData["Message"] = "Password or username is incorrect!";
+                ViewData["Message"] = "Invalid creditentials!";
                 return View();
             }
         }

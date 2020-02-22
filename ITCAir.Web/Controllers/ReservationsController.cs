@@ -34,8 +34,9 @@ namespace ITCAir.Web.Controllers
         {
             if (ModelState.IsValid)
             {
+                ModelClass.OneWay = oneWay;
                 ModelClass.SecondModel = model;
-                GetViewData( model);
+                GetViewData(model);
 
                 model.OneWay = oneWay;
                 return View("ReservationsFlights", model);
@@ -46,10 +47,43 @@ namespace ITCAir.Web.Controllers
         private void GetViewData(FirstStepReservationModel model)
         {
             var now = new AllFlightsViewModel();
-            now.Pager ??= new PagerViewModel();
-            now.Pager.CurrentPage = now.Pager.CurrentPage <= 0 ? 1 : now.Pager.CurrentPage;
 
-            List<FlightViewModel> items = context.Flights.Skip((now.Pager.CurrentPage - 1) * PageSize).Take(PageSize).Select(c => new FlightViewModel()
+            ProcessGoingFlights(model, now);
+            //TODO
+            if (ModelClass.OneWay == false)
+            {
+                ProcesReturning(model, now);
+            }
+
+
+            this.ViewData["AllFlightInfo"] = now;
+        }
+
+        private void ProcesReturning(FirstStepReservationModel model, AllFlightsViewModel now)
+        {
+            now.PagerOnReturning ??= new PagerViewModel();
+            now.PagerOnReturning.CurrentPage = now.PagerOnReturning.CurrentPage <= 0 ? 1 : now.PagerOnReturning.CurrentPage;
+
+            List<FlightViewModel> items = context.Flights.Skip((now.PagerOnReturning.CurrentPage - 1) * PageSize).Take(PageSize).Select(c => new FlightViewModel()
+            {
+                Id = c.Id,
+                From = c.From,
+                To = c.To,
+                Departure = c.DepartureTime,
+                Arrival = c.Arrival
+
+            }).Where(c => c.From == model.To && c.To == model.From).ToList();
+
+            now.ReturningFlights = items;
+            now.PagerOnReturning.PagesCount = (int)Math.Ceiling(context.Flights.Count() / (double)PageSize);
+        }
+
+        private void ProcessGoingFlights(FirstStepReservationModel model, AllFlightsViewModel now)
+        {
+            now.PagerOnGoing ??= new PagerViewModel();
+            now.PagerOnGoing.CurrentPage = now.PagerOnGoing.CurrentPage <= 0 ? 1 : now.PagerOnGoing.CurrentPage;
+
+            List<FlightViewModel> items = context.Flights.Skip((now.PagerOnGoing.CurrentPage - 1) * PageSize).Take(PageSize).Select(c => new FlightViewModel()
             {
                 Id = c.Id,
                 From = c.From,
@@ -59,9 +93,8 @@ namespace ITCAir.Web.Controllers
 
             }).Where(c => c.From == model.From && c.To == model.To).ToList();
 
-            now.Items = items;
-            now.Pager.PagesCount = (int)Math.Ceiling(context.Flights.Count() / (double)PageSize);
-            this.ViewData["AllFlightInfo"] = now;
+            now.GoingFlights = items;
+            now.PagerOnGoing.PagesCount = (int)Math.Ceiling(context.Flights.Count() / (double)PageSize);
         }
 
         public IActionResult ProcessFirstStepReservationOnTop(FirstStepReservationModel model, bool oneWay)
@@ -90,7 +123,7 @@ namespace ITCAir.Web.Controllers
                 CapacityBusiness = currentFlight.CapacityBusiness,
                 CapacityEconomy = currentFlight.CapacityEconomy
             };
-            
+
             return View(flightDetailsViewModel);
         }
 

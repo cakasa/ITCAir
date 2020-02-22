@@ -8,8 +8,12 @@ namespace ITCAir.Web.Models.Flights
 {
     public class AllFlightsViewModel
     {
-        public PagerViewModel Pager { get; set; }
+        public PagerViewModel PagerOnGoing { get; set; }
 
-        public ICollection<FlightViewModel> Items { get; set; }
+        public PagerViewModel PagerOnReturning { get; set; }
+
+        public ICollection<FlightViewModel> GoingFlights { get; set; }
+
+        public ICollection<FlightViewModel> ReturningFlights { get; set; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿@model ITCAir.Web.Models.Reservations.FirstStepReservationModel
+@using ITCAir.Web.GlobalConstants
 @using ITCAir.Web.Models.Flights
 @inject AllFlightsViewModel Flights
 @{
@@ -63,9 +64,9 @@
             </tr>
         </thead>
         <br />
-        <h2>From @Model.From To @Model.To</h2>
+        <h2>From @Model.To To @Model.From</h2>
         <tbody>
-            @foreach (FlightViewModel item in Flights.Items)
+            @foreach (FlightViewModel item in Flights.GoingFlights)
             {
                 <tr>
                     <td>
@@ -85,9 +86,9 @@
             }
         </tbody>
         <ul class="pagination">
-            @for (var i = 1; i <= Flights.Pager.PagesCount; i++)
+            @for (var i = 1; i <= Flights.PagerOnGoing.PagesCount; i++)
             {
-                <li class="page-item @(i == Flights.Pager.CurrentPage ? "active" : "")">
+                <li class="page-item @(i == Flights.PagerOnGoing.CurrentPage ? "active" : "")">
                     <a asp-route-Pager.CurrentPage="@i" class="page-link">@i</a>
                 </li>
             }
@@ -95,3 +96,57 @@
     </table>
 
 </div>
+
+@{
+    if (ModelClass.OneWay == false)
+    {
+        <div style="background-color: #eee; margin-top: 30px; padding: 15px 15px 15px 15px; border-radius: 5px; box-shadow: #4d4d4d 3px 3px;">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            Date
+                        </th>
+                        <th>
+                            Departure
+                        </th>
+                        <th>
+                            Arrival
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <br />
+                <h2>From @Model.From To @Model.To</h2>
+                <tbody>
+                    @foreach (FlightViewModel item in Flights.ReturningFlights)
+                    {
+                        <tr>
+                            <td>
+                                @item.Departure.Date.ToLongDateString();
+                            </td>
+                            <td>
+                                @item.Departure.ToShortTimeString()
+                            </td>
+                            <td>
+                                @item.Arrival.ToShortTimeString()
+                            </td>
+                            <td>
+                                <a asp-controller="Reservations" asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                                <a asp-action="Delete">Delete</a>@*asp-route-id="@item.Id"*@
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+                <ul class="pagination">
+                    @for (var i = 1; i <= Flights.PagerOnReturning.PagesCount; i++)
+                    {
+                        <li class="page-item @(i == Flights.PagerOnReturning.CurrentPage ? "active" : "")">
+                            <a asp-route-Pager.CurrentPage="@i" class="page-link">@i</a>
+                        </li>
+                    }
+                </ul>
+            </table>
+        </div>
+    }
+}

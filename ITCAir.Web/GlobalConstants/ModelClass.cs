@@ -9,5 +9,7 @@ namespace ITCAir.Web.GlobalConstants
     public static class ModelClass
     {
         public static FirstStepReservationModel SecondModel { get; set; }
+
+        public static bool OneWay { get; set; }
     }
 }

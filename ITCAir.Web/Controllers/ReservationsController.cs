@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ITCAir.Data;
 using ITCAir.Web.Attributes;
+using ITCAir.Web.GlobalConstants;
 using ITCAir.Web.Models.Flights;
 using ITCAir.Web.Models.Reservations;
 using ITCAir.Web.Models.Shared;
@@ -13,7 +14,6 @@ namespace ITCAir.Web.Controllers
 {
     public class ReservationsController : Controller
     {
-        private  FirstStepReservationModel ReadetModel;
         private readonly ITCAirContext context;
         private const int PageSize = 10;
 
@@ -34,7 +34,7 @@ namespace ITCAir.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-               // Session["user"] = 123;
+                ModelClass.SecondModel = model;
                 GetViewData( model);
 
                 model.OneWay = oneWay;
@@ -68,7 +68,7 @@ namespace ITCAir.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                this.ReadetModel = model;
+                ModelClass.SecondModel = model;
                 GetViewData(model);
                 return View("ReservationsFlights", model);
             }
@@ -96,6 +96,8 @@ namespace ITCAir.Web.Controllers
 
         public IActionResult ReturnFromEdit()
         {
+            // HttpCookie myCookie = new HttpCookie("MyTestCookie");
+            var ReadetModel = ModelClass.SecondModel;
             GetViewData(ReadetModel);
             return View("ReservationsFlights", ReadetModel);
         }

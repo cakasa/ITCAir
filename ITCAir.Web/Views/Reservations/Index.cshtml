@@ -4,49 +4,55 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Sign up</h1>
-
-<h5>Already have an account? <a asp-area="" asp-controller="Users" asp-action="SignIn"> Sign in</a></h5>
-<hr />
-<div class="row">
-     <div class="col-md-4">
-        <form asp-controller="Reservations" asp-action="ProcessFirstStepReservation">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="From" title="From" class="control-label"></label>
-                <input asp-for="From" class="form-control" />
-                <span asp-validation-for="From" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="To" class="control-label"></label>
-                <input asp-for="To" class="form-control" />
-                <span asp-validation-for="To" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DepartureDate" class="control-label"></label>
-                @Html.EditorFor(model => model.DepartureDate, new { htmlAttributes = new { @class = "form-control", @type = "date" } })
-                <span asp-validation-for="DepartureDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ReturnDate" class="control-label"></label>
-                @Html.EditorFor(model => model.ReturnDate, new { htmlAttributes = new { @class = "form-control", @type = "date" } })
-                <span asp-validation-for="ReturnDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label for="oneWay" asp-for="OneWay" class="control-label">One Way?  </label>
-                @Html.CheckBox("oneWay", false)
-            </div>
-            <div class="form-group">
-                <label asp-for="People" class="control-label"></label>
-                <input asp-for="People" class="form-control" />
-                <span asp-validation-for="People" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="GO" class="btn btn-primary" />
-            </div>
-        </form>
+    <div class="row">
+        <div class="col-md-5" style="background:linear-gradient(#c82076 , purple); padding-bottom: 10px; padding-top: 20px; border-radius: 15px; box-shadow: #4d4d4d 3px 3px;">
+            <h2 style=" text-align: left;
+        color: white">
+                Book a flight
+            </h2>
+            <hr style="background: radial-gradient(#fff, #c82076)" />
+            <form asp-controller="Reservations" asp-action="ProcessFirstStepReservation">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label style="color:white;" asp-for="From" title="From" class="control-label"></label>
+                    <input asp-for="From" class="form-control" />
+                    <span asp-validation-for="From" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label style="color:white;" asp-for="To" class="control-label"></label>
+                    <input asp-for="To" class="form-control" />
+                    <span asp-validation-for="To" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label style="color:white;" asp-for="DepartureDate" class="control-label"></label>
+                    @Html.EditorFor(model => model.DepartureDate, new { htmlAttributes = new { @class = "form-control", @type = "date" } })
+                    <span asp-validation-for="DepartureDate" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label style="color:white;" asp-for="ReturnDate" class="control-label"></label>
+                    @Html.EditorFor(model => model.ReturnDate, new { htmlAttributes = new { @class = "form-control", @type = "date" } })
+                    <span asp-validation-for="ReturnDate" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label for="oneWay" style="color:white;" asp-for="OneWay" class="control-label">One Way?  </label>
+                    @Html.CheckBox("oneWay", false)
+                </div>
+                <div class="form-group">
+                    <label style="color:white;" asp-for="People" class="control-label"></label>
+                    <input asp-for="People" class="form-control" />
+                    <span asp-validation-for="People" class="text-danger"></span>
+                </div>
+                <div class="form-group" style="text-align:center">
+                    <input type="submit" style="color : #4a0664; background-color: #fff; border-color: purple;" value="Go!" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-5" style="background-color: #eee; padding-bottom: 10px; padding-top: 20px; border-radius: 15px; box-shadow: #4d4d4d 3px 3px;">
+            <h1 style="color: black;">Description</h1>
+        </div>
     </div>
-</div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

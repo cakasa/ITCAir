@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity.EntityFramework;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace ITCAir.Data.Entities
 {
-    public class User
+    public class User : IdentityUser
     {
         public string Id { get; set; }
         public string Username { get; set; }

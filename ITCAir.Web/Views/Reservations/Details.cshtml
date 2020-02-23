@@ -4,55 +4,54 @@
     ViewData["Title"] = "Details";
 }
 
-<div>
+<div class="white-groupbox col-md-5" style="padding-left">
     <h4>Details</h4>
     <hr />
     <dl class="row">
-        <dt class="col-sm-2">
+        <dt class="col-sm-5">
             @Html.DisplayNameFor(model => model.From)
         </dt>
-        <dd class="col-sm-10">
+        <dd class="col-sm-7">
             @Html.DisplayFor(model => model.From)
         </dd>
-        <dt class="col-sm-2">
+        <dt class="col-sm-5">
             Date
         </dt>
-        <dd class="col-sm-10">
+        <dd class="col-sm-7">
             @Model.DepartureTime.Date.ToLongDateString()
         </dd>
-        <dt class="col-sm-2">
-            DepartureTime
+        <dt class="col-sm-5">
+            Departure Time
         </dt>
-        <dd class="col-sm-10">
+        <dd class="col-sm-7">
             @Model.DepartureTime.ToShortTimeString()
         </dd>
-        <dt class="col-sm-2">
-            ArrivalTime
+        <dt class="col-sm-5">
+            Arrival Time
         </dt>
-        <dd class="col-sm-10">
+        <dd class="col-sm-7">
             @Model.Arrival.ToShortTimeString()
         </dd>
-        <dt class="col-sm-2">
-            Capacity of Economy seats
+        <dt class="col-sm-5">
+            Capacity Economy
         </dt>
-        <dd class="col-sm-10">
+        <dd class="col-sm-7">
             @Model.CapacityEconomy
         </dd>
-        <dt class="col-sm-2">
-            Capacity of Business seats
+        <dt class="col-sm-5">
+            Capacity Business
         </dt>
-        <dd class="col-sm-10">
+        <dd class="col-sm-7">
             @Model.CapacityBusiness
         </dd>
-        <dt class="col-sm-2">
+        <dt class="col-sm-5">
             Pilot Name
         </dt>
-        <dd class="col-sm-10">
+        <dd class="col-sm-7">
             @Model.PilotName
         </dd>
     </dl>
-</div>
-<div>
+
     <a asp-action="Edit" asp-route-id="@Model.Id">Book</a> |
     <a asp-controller="Reservations" asp-action="ReturnFromEdit">Back to List</a>
 </div>

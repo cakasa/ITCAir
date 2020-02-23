@@ -1,5 +1,6 @@
 ﻿using ITCAir.Data.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNet.Identity.EntityFramework
 using System;
 
 namespace ITCAir.Data

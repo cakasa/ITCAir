@@ -42,15 +42,15 @@ namespace ITCAir.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult SignUp()
+        public IActionResult CreateUser()
         {
-            return View();
+            return View("CreateUser");
         }
 
         [HttpPost]
-        public IActionResult SignUp(UserSignUpViewModel user)
+        public IActionResult CreateUser(UserSignUpViewModel user)
         {
-            return View("SignIn");
+            return View("Users");
         }
 
         [HttpGet]

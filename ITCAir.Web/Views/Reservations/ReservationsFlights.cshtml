@@ -5,7 +5,6 @@
 @{
     ViewData["Title"] = "Index";
     this.Flights = (AllFlightsViewModel)this.ViewData["AllFlightInfo"];
-
 }
 <style>
     .One input {
@@ -14,14 +13,14 @@
 </style>
 <div class="One">
     <form asp-controller="Reservations" asp-action="ProcessFirstStepReservationOnTop">
-        <div class="form-row" style="background:linear-gradient(#c82076 , purple); padding: 5px 5px 3px 3px; border-radius: 5px; box-shadow: #4d4d4d 3px 3px;">
+        <div class="form-row gradient-groupbox" style="padding: 5px 5px 3px 3px; border-radius: 5px;">
             <div class="form-group col-md-3">
-                <label asp-for="From" for="inputFrom">From</label>
+                <label asp-for="From" class ="control-label" for="inputFrom">From</label>
                 <input asp-for="From" class="form-control" id="inputFrom">
                 <span asp-validation-for="From" class="text-danger"></span>
             </div>
             <div class="form-group col-md-3">
-                <label asp-for="To" for="inputTo">To</label>
+                <label asp-for="To" class ="control-label" for="inputTo">To</label>
                 <input asp-for="To" class="form-control" id="inputTo">
                 <span asp-validation-for="To" class="text-danger"></span>
             </div>
@@ -41,13 +40,13 @@
                 <span asp-validation-for="People" class="text-danger"></span>
             </div>
             <div class="form-group col-md-1 justify-content-end">
-                <input type="submit" value="GO" class="btn btn-primary" /></input>
+                <input style ="align-self: baseline;"type="submit" value="Go!" class="btn btn-light"/>
             </div>
         </div>
     </form>
 </div>
 
-<div style="background-color: #eee; margin-top: 30px; padding: 15px 15px 15px 15px; border-radius: 5px; box-shadow: #4d4d4d 3px 3px;">
+<div class ="white-groupbox" style="margin-top: 30px; padding: 15px 15px 15px 15px; border-radius: 5px;">
     <table class="table">
         <thead>
             <tr>
@@ -64,7 +63,7 @@
             </tr>
         </thead>
         <br />
-        <h2>From @Model.To To @Model.From</h2>
+        <h2>From @Model.From To @Model.To</h2>
         <tbody>
             @foreach (FlightViewModel item in Flights.GoingFlights)
             {
@@ -100,7 +99,7 @@
 @{
     if (ModelClass.OneWay == false)
     {
-        <div style="background-color: #eee; margin-top: 30px; padding: 15px 15px 15px 15px; border-radius: 5px; box-shadow: #4d4d4d 3px 3px;">
+        <div class ="white-groupbox" style="margin-top: 30px; padding: 15px 15px 15px 15px; border-radius: 5px;">
             <table class="table">
                 <thead>
                     <tr>
@@ -117,7 +116,7 @@
                     </tr>
                 </thead>
                 <br />
-                <h2>From @Model.From To @Model.To</h2>
+                <h2>From @Model.To To @Model.From</h2>
                 <tbody>
                     @foreach (FlightViewModel item in Flights.ReturningFlights)
                     {

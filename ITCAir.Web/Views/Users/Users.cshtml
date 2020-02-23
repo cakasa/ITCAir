@@ -1,27 +1,11 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "Users";
 }
-<p>dasdasd</p>
-<!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head runat="server">
-    <title></title>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
-    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
-    <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/themes/smoothness/jquery-ui.min.css" rel="stylesheet" type="text/css" />
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $(function () {
-                $("#<%=txtDate.ClientID%>").datepicker({ maxDate: "01/23/2014" });
-            });
-        });
-    </script>
-</head>
-<body>
-    <form id="form1" runat="server">
-        <asp:TextBox runat="server" ID="txtDate" />
+<div class="white-groupbox">
+    <form asp-controller="Users" asp-action="CreateUser">
+        <div class="form-group" style="text-align:center;">
+            <input formmethod="get" type="submit" value="Create user" class="btn btn-light" />
+        </div>
     </form>
-</body>
-</html>
+</div>

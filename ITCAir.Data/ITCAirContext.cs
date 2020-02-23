@@ -1,18 +1,21 @@
 ﻿using ITCAir.Data.Entities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNet.Identity.EntityFramework
 using System;
 
 namespace ITCAir.Data
 {
-    public class ITCAirContext : DbContext
+    public class ITCAirContext : IdentityDbContext<User>
     {
-        public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<Flight> Flights { get; set; }
         public virtual DbSet<Reservation> Reservations { get; set; }
 
+        public ITCAirContext() {}
+
+        public ITCAirContext(DbContextOptions<ITCAirContext> options) : base(options) { }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<Flight>()
                 .HasMany(f => f.Reservations)
                 .WithOne(r => r.Flight)

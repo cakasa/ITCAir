@@ -11,6 +11,7 @@ namespace ITCAir.Data.Entities
         public string To { get; set; }
         public DateTime DepartureTime { get; set; }
         public DateTime Arrival { get; set; }
+        public string PlaneModel { get; set; }
         public string PlaneId { get; set; }
         public string PilotName { get; set; }
         public int CapacityEconomy { get; set; }

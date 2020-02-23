@@ -14,12 +14,12 @@
             Note: This is for existing ITCAir employees only!
         </h6>
         <hr style="background: radial-gradient( #fff, #c82076)" />
-        <form asp-controller="Users" asp-action="SignIn">
+        <form asp-controller="Accounts" asp-action="SignIn">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Username" class="control-label"></label>
-                <input style="" asp-for="Username" class="form-control" />
-                <span asp-validation-for="Username" class="text-danger"></span>
+                <label asp-for="UserName" class="control-label">Username</label>
+                <input style="" asp-for="UserName" class="form-control" />
+                <span asp-validation-for="UserName" class="text-danger"></span>
             </div>
             @{
                 if (string.IsNullOrEmpty(ViewData["Message"].ToString()))

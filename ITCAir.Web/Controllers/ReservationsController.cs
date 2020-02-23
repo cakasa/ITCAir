@@ -17,9 +17,9 @@ namespace ITCAir.Web.Controllers
         private readonly ITCAirContext context;
         private const int PageSize = 10;
 
-        public ReservationsController()
+        public ReservationsController(ITCAirContext context)
         {
-            context = new ITCAirContext();
+            this.context = context;
         }
 
         [HttpGet]
@@ -27,6 +27,7 @@ namespace ITCAir.Web.Controllers
         {
             return View();
         }
+
         //When the user type the info of the first page
         [HttpPost]
         [ReservationDate]

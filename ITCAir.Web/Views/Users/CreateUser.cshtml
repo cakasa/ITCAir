@@ -1,7 +1,7 @@
 ﻿@model ITCAir.Web.Models.User.UserSignUpViewModel
 
 @{
-    ViewData["Title"] = "Sign in";
+    ViewData["Title"] = "Create user";
 }
 
 <hr />
@@ -12,7 +12,7 @@
             Create user
         </h2>
         <h6 style="text-align: center; color: white; opacity: 0.8; font-size: 14px;">
-            Create a new ITCAir employee!
+            Create a new ITCAir employee
         </h6>
         <hr style="background: radial-gradient( #fff, #c82076)" />
         <form asp-controller="Users" asp-action="CreateUser">
@@ -67,6 +67,12 @@
                     </div>
                 </div>
             </div>
+            @{
+                if (!string.IsNullOrEmpty(ViewData["Unique"].ToString()))
+                {
+                    <p class="text-danger" style="color:white; text-align:center; padding-bottom:10px">@ViewData["Unique"]</p>
+                }
+            }
             <div class="form-group" style="text-align:center; margin-top: 10px">
                 <input type="submit" value="Create user" class="btn btn-light" />
             </div>

@@ -1,4 +1,6 @@
-﻿@{
+﻿@model ITCAir.Web.Models.User.AllUsersViewModel;
+@using ITCAir.Web.Models.User;
+@{
     ViewData["Title"] = "Users";
 }
 
@@ -8,4 +10,36 @@
             <input formmethod="get" type="submit" value="Create user" class="btn btn-light" />
         </div>
     </form>
+
+    <table class="table" style="border: solid 3px">
+        <thead>
+            <tr>
+                <th>
+                    Name
+                </th>
+                <th>
+                    Username
+                </th>
+                <th>
+                    Email
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (UserInfoViewModel user in Model.AllUsers)
+            {
+                <tr>
+                    <td>
+                        @user.Name
+                    </td>
+                    <td>
+                        @user.Username
+                    </td>
+                    <td>
+                        @user.Email
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
 </div>

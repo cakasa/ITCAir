@@ -1,4 +1,4 @@
-﻿@model ITCAir.Web.Models.User.UserCreateViewModel
+﻿@model ITCAir.Web.Models.User.EditUserViewModel
 
 @{
     ViewData["Title"] = "Create user";
@@ -9,13 +9,13 @@
     <div class="col-md-3"></div>
     <div class="col-md-6 gradient-groupbox">
         <h2 style="text-align: center; color: white;">
-            Create user
+            Edit user (@Model.Username)
         </h2>
         <h6 style="text-align: center; color: white; opacity: 0.8; font-size: 14px;">
-            Create a new ITCAir employee
+            Edit an existing ITCAir employee
         </h6>
         <hr style="background: radial-gradient( #fff, #c82076)" />
-        <form asp-controller="Users" asp-action="CreateUser">
+        <form method="post" asp-controller="Users" asp-action="EditUser">
             <div>
                 <div class="row">
                     <div class=" form-group col-md-6">
@@ -37,21 +37,9 @@
                         <span asp-validation-for="Email" class="text-danger"></span>
                     </div>
                     <div class="form-group col-md-6">
-                        <label asp-for="UserName" class="control-label">Username</label>
-                        <input asp-for="UserName" class="form-control" />
-                        <span asp-validation-for="UserName" class="text-danger"></span>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="form-group col-md-6">
-                        <label asp-for="Password" class="control-label"></label>
-                        <input type="password" asp-for="Password" class="form-control" />
-                        <span asp-validation-for="Password" class="text-danger"></span>
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label asp-for="ConfirmPassword" class="control-label">Confirm Password</label>
-                        <input type="password" asp-for="ConfirmPassword" class="form-control" />
-                        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                        <label asp-for="PersonalId" class="control-label">Personal ID</label>
+                        <input asp-for="PersonalId" class="form-control" />
+                        <span asp-validation-for="PersonalId" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="row">
@@ -66,23 +54,15 @@
                         <span asp-validation-for="Phone" class="text-danger"></span>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-3"></div>
-                    <div class="form-group col-md-6">
-                        <label asp-for="PersonalId" class="control-label">Personal ID</label>
-                        <input asp-for="PersonalId" class="form-control" />
-                        <span asp-validation-for="PersonalId" class="text-danger"></span>
-                    </div>
-                </div>
-            </div>
-            @{
-                if (!string.IsNullOrEmpty(ViewData["Unique"].ToString()))
-                {
-                    <p class="text-danger" style="color:white; text-align:center; padding-bottom:10px">@ViewData["Unique"]</p>
+                @{
+                    if (!string.IsNullOrEmpty(ViewData["Unique"].ToString()))
+                    {
+                        <p class="text-danger" style="color:white; text-align:center; padding-bottom:10px">@ViewData["Unique"]</p>
+                    }
                 }
-            }
-            <div class="form-group" style="text-align:center; margin-top: 10px">
-                <input type="submit" value="Create user" class="btn btn-light" />
+                <div class="form-group" style="text-align:center; margin-top: 10px">
+                    <input type="submit" value="Save Changes" class="btn btn-light" />
+                </div>
             </div>
         </form>
     </div>

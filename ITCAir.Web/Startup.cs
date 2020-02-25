@@ -81,8 +81,8 @@ namespace ITCAir.Web
                 }
             }
 
-            var user = await UserManager.FindByNameAsync("admin");
-            if (user == null)
+            var user = await UserManager.GetUsersInRoleAsync("Admin");
+            if (user.Count() == 0)
             {
                 User powerUser = new User
                 {

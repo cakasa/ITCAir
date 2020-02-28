@@ -26,7 +26,7 @@ namespace ITCAir.Web.Controllers
 
         public AllFlightsViewModel GetAllUpcomingFlights()
         {
-            List<Flight> allFlights = context.Flights.Where(x => x.DepartureTime > DateTime.Now).ToList();
+            List<Flight> allFlights = context.Flights.Where(x => x.Departure > DateTime.Now).ToList();
             List<SingleFlightViewModel> flightsWithAppropriateData = new List<SingleFlightViewModel>();
             foreach (var singleFlight in allFlights)
             {
@@ -35,8 +35,8 @@ namespace ITCAir.Web.Controllers
                     Id = singleFlight.Id,
                     From = singleFlight.From,
                     To = singleFlight.To,
-                    Departure = singleFlight.DepartureTime,
-                    Duration = singleFlight.Arrival - singleFlight.DepartureTime
+                    Departure = singleFlight.Departure,
+                    Duration = singleFlight.Arrival - singleFlight.Departure
                 };
                 flightsWithAppropriateData.Add(flight);
             }
@@ -67,8 +67,8 @@ namespace ITCAir.Web.Controllers
                 {
                     From = model.From,
                     To = model.To,
-                    CapacityBusiness = model.BusinessCapacity,
-                    CapacityEconomy = model.EconomyCapacity,
+                    BusinessCapacity = model.BusinessCapacity,
+                    EconomyCapacity = model.EconomyCapacity,
                     PilotName = model.PilotName,
                     PlaneModel = model.PlanetModel,
                     PlaneId = model.AirplaneId,
@@ -79,7 +79,7 @@ namespace ITCAir.Web.Controllers
                                            model.TimeOfArrival.Hour,
                                            model.TimeOfArrival.Minute,
                                            0),
-                    DepartureTime = new DateTime(model.DateOfDeparture.Year,
+                    Departure = new DateTime(model.DateOfDeparture.Year,
                                                  model.DateOfDeparture.Month,
                                                  model.DateOfDeparture.Day,
                                                  model.TimeOfDeparture.Hour,
@@ -87,7 +87,7 @@ namespace ITCAir.Web.Controllers
                                                  0)
                 };
 
-                if(flight.Arrival < flight.DepartureTime)
+                if(flight.Arrival < flight.Departure)
                 {
                     ViewData["Error"] = "Date of Arrival cannot be before Date of Departure!";
                     return View("CreateFlight");

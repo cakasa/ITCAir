@@ -9,6 +9,7 @@ namespace ITCAir.Data
     {
         public virtual DbSet<Flight> Flights { get; set; }
         public virtual DbSet<Reservation> Reservations { get; set; }
+        public virtual DbSet<Passenger> Passengers { get; set; }
 
         public ITCAirContext() {}
 
@@ -20,6 +21,11 @@ namespace ITCAir.Data
                 .HasMany(f => f.Reservations)
                 .WithOne(r => r.Flight)
                 .HasForeignKey(r => r.FlightId);
+
+            modelBuilder.Entity<Reservation>()
+                .HasMany(r => r.Passengers)
+                .WithOne(p => p.Reservation)
+                .HasForeignKey(p => p.ReservationId);
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

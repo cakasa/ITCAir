@@ -71,7 +71,7 @@ namespace ITCAir.Web.Controllers
                 Id = c.Id,
                 From = c.From,
                 To = c.To,
-                Departure = c.DepartureTime,
+                Departure = c.Departure,
                 Arrival = c.Arrival
 
             }).Where(c => c.From == model.To && c.To == model.From).ToList();
@@ -90,7 +90,7 @@ namespace ITCAir.Web.Controllers
                 Id = c.Id,
                 From = c.From,
                 To = c.To,
-                Departure = c.DepartureTime,
+                Departure = c.Departure,
                 Arrival = c.Arrival
 
             }).Where(c => c.From == model.From && c.To == model.To).ToList();
@@ -118,12 +118,12 @@ namespace ITCAir.Web.Controllers
                 Id = currentFlight.Id,
                 From = currentFlight.From,
                 To = currentFlight.To,
-                DepartureTime = currentFlight.DepartureTime,
+                DepartureTime = currentFlight.Departure,
                 Arrival = currentFlight.Arrival,
                 PlaneId = currentFlight.PlaneId,
                 PilotName = currentFlight.PilotName,
-                CapacityBusiness = currentFlight.CapacityBusiness,
-                CapacityEconomy = currentFlight.CapacityEconomy
+                CapacityBusiness = currentFlight.BusinessCapacity,
+                CapacityEconomy = currentFlight.EconomyCapacity
             };
 
             return View(flightDetailsViewModel);

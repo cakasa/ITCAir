@@ -1,0 +1,56 @@
+﻿@using ITCAir.Web.Models.User
+@model UserDetailsViewModel
+@{
+    ViewData["Title"] = "Details";
+}
+
+<div class="white-groupbox col-md-5" style="padding-left:10px;">
+    <h4>Details</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-5">
+            First Name
+        </dt>
+        <dd class="col-sm-7">
+            @Model.FirstName
+        </dd>
+        <dt class="col-sm-5">
+            Last Name
+        </dt>
+        <dd class="col-sm-7">
+            @Model.LastName
+        </dd>
+        <dt class="col-sm-5">
+            Username
+        </dt>
+        <dd class="col-sm-7">
+            @Model.UserName
+        </dd>
+        <dt class="col-sm-5">
+            Email
+        </dt>
+        <dd class="col-sm-7">
+            @Model.Email
+        </dd>
+        <dt class="col-sm-5">
+            Personal ID
+        </dt>
+        <dd class="col-sm-7">
+            @Model.PersonalId
+        </dd>
+        <dt class="col-sm-5">
+            Phone Number
+        </dt>
+        <dd class="col-sm-7">
+            @Model.Phone
+        </dd>
+        <dt class="col-sm-5">
+            Address
+        </dt>
+        <dd class="col-sm-7">
+            @Model.Address
+        </dd>
+    </dl>
+
+    <a asp-controller="Users" asp-action="Users">Back to Users</a>
+</div>

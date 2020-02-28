@@ -28,12 +28,23 @@ a {
     box-shadow: #4d4d4d 3px 3px;
 }
 
-.control-label{
-    color:white;
+.control-label {
+    color: white;
 }
 
 .btn-light {
     color: #4a0664;
+}
+
+#CRUDButton {
+    color: #fff;
+    background-color: purple;
+    border: solid 0px white;
+}
+
+#createUserButton:hover {
+    color: #fff;
+    background-color: #c82076;
 }
 
 .field-validation-error {
@@ -45,7 +56,7 @@ a {
     color: purple;
 }
 
-.text-danger{
+.text-danger {
     color: white !important;
     opacity: 0.6;
 }

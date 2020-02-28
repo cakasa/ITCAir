@@ -5,8 +5,7 @@ using System.Threading.Tasks;
 
 namespace ITCAir.Web.Models.Flights
 {
-    public class AllFlightsViewModel
+    public class EditFlightViewModel
     {
-        public List<SingleFlightViewModel> allFlights { get; set; }
     }
 }

@@ -37,16 +37,15 @@ namespace ITCAir.Web.Controllers
             if (ModelState.IsValid)
             {
                 var result = await signInManager.PasswordSignInAsync(
-                    model.UserName, model.Password, false, false);
+                    model.UserName, model.Password, model.RememberUser, false);
 
                 if (result.Succeeded)
                 {
                     return RedirectToAction("Index", "Reservations");
                 }
-
-                ViewData["Message"] = "Invalid creditentials!";
             }
 
+            ViewData["Message"] = "Invalid creditentials!";
             return View();
         }
     }

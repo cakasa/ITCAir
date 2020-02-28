@@ -5,13 +5,12 @@ using System.Threading.Tasks;
 
 namespace ITCAir.Web.Models.Flights
 {
-    public class FlightViewModel
+    public class SingleFlightViewModel
     {
         public int Id { get; set; }
         public string From { get; set; }
         public string To { get; set; }
         public DateTime Departure { get; set; }
-        public DateTime Arrival { get; set; }
+        public TimeSpan Duration { get; set; }
     }
 }
-    

@@ -1,9 +1,94 @@
-﻿
+﻿@model ITCAir.Web.Models.Flights.AllFlightsViewModel;
+@using ITCAir.Web.Models.Flights;
 @{
     ViewData["Title"] = "Flights";
 }
 
-<div class="white-groupbox">
-    Flights
-</div>
+<div class="white-groupbox" style="padding: 10px 10px 10px 10px">
+    @{
+        if (User.IsInRole("Admin"))
+        {
+            <form method="get" asp-controller="Flights" asp-action="CreateFlight">
+                <div class="form-group" style="text-align:center;">
+                    <input formmethod="get" id="CRUDButton" type="submit" value="New flight" class="btn btn-primary" />
+                </div>
+            </form>
 
+        }
+    }
+
+    <table class="table-striped table table-hover" style="border: solid 2px purple;">
+        <thead style="color: #fff; background-color: purple; border: solid 3px purple;">
+            <tr>
+                <th>
+                    From
+                </th>
+                <th>
+                    To
+                </th>
+                <th>
+                    Date of Departure
+                </th>
+                <th>
+                    Time of Departure
+                </th>
+                <th>
+                    Duration
+                </th>
+                @{
+                    if (User.IsInRole("Admin"))
+                    {
+                        <th></th>
+                    }
+                }
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var singleFlight in Model.allFlights)
+            {
+                <tr>
+                    <td>
+                        @singleFlight.From
+                    </td>
+                    <td>
+                        @singleFlight.To
+                    </td>
+                    <td>
+                        @singleFlight.Departure.ToShortDateString()
+                    </td>
+                    <td>
+                        @singleFlight.Departure.ToShortTimeString()
+                    </td>
+                    <td>
+                        @singleFlight.Duration
+                    </td>
+                    @{
+                        if (User.IsInRole("Admin"))
+                        {
+                            <td>
+                                <div class="float-right">
+                                    <form asp-controller="Flights" asp-action="DeleteFlight" asp-route-id=@singleFlight.Id>
+                                        <input id="CRUDButton" style="margin-left: 8px; margin-right: 8px" type="submit" value="Delete" class="btn btn-primary btn-sm" />
+                                    </form>
+                                </div>
+
+                                <div class="float-right">
+                                    <form asp-controller="Flights" asp-action="EditFlight" asp-route-id=@singleFlight.Id>
+                                        <input formmethod="get" id="CRUDButton" style="margin-left: 8px; margin-right: 8px" type="submit" value="Edit" class="btn btn-primary btn-sm" />
+                                    </form>
+                                </div>
+                                <div class="float-right">
+                                    <form asp-controller="Flights" asp-action="FlightDetails" asp-route-id=@singleFlight.Id>
+                                        <input id="CRUDButton" style="margin-left: 8px; margin-right: 8px" type="submit" value="Details" class="btn btn-primary btn-sm" />
+                                    </form>
+                                </div>
+                            </td>
+                        }
+                    }
+
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

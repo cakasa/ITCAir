@@ -48,20 +48,20 @@ namespace ITCAir.Web.Controllers
 
         private void GetViewData(FirstStepReservationModel model)
         {
-            var now = new AllFlightsViewModel();
+            var now = new AllFlightsForReservationsViewModel();
 
-            ProcessGoingFlights(model, now);
+            ProccessGoingFlights(model, now);
             //TODO
             if (ModelClass.OneWay == false)
             {
-                ProcesReturning(model, now);
+                ProccessReturning(model, now);
             }
 
 
             this.ViewData["AllFlightInfo"] = now;
         }
 
-        private void ProcesReturning(FirstStepReservationModel model, AllFlightsViewModel now)
+        private void ProccessReturning(FirstStepReservationModel model, AllFlightsForReservationsViewModel now)
         {
             now.PagerOnReturning ??= new PagerViewModel();
             now.PagerOnReturning.CurrentPage = now.PagerOnReturning.CurrentPage <= 0 ? 1 : now.PagerOnReturning.CurrentPage;
@@ -80,7 +80,7 @@ namespace ITCAir.Web.Controllers
             now.PagerOnReturning.PagesCount = (int)Math.Ceiling(context.Flights.Count() / (double)PageSize);
         }
 
-        private void ProcessGoingFlights(FirstStepReservationModel model, AllFlightsViewModel now)
+        private void ProccessGoingFlights(FirstStepReservationModel model, AllFlightsForReservationsViewModel now)
         {
             now.PagerOnGoing ??= new PagerViewModel();
             now.PagerOnGoing.CurrentPage = now.PagerOnGoing.CurrentPage <= 0 ? 1 : now.PagerOnGoing.CurrentPage;

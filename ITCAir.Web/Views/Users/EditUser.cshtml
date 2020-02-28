@@ -15,7 +15,8 @@
             Edit an existing ITCAir employee
         </h6>
         <hr style="background: radial-gradient( #fff, #c82076)" />
-        <form method="post" asp-controller="Users" asp-action="EditUser">
+        <form asp-controller="Users" asp-action="EditUser">
+            <input asp-for="Username" type="hidden" />
             <div>
                 <div class="row">
                     <div class=" form-group col-md-6">
@@ -60,9 +61,9 @@
                         <p class="text-danger" style="color:white; text-align:center; padding-bottom:10px">@ViewData["Unique"]</p>
                     }
                 }
-                <div class="form-group" style="text-align:center; margin-top: 10px">
-                    <input type="submit" value="Save Changes" class="btn btn-light" />
-                </div>
+            </div>
+            <div class="form-group" style="text-align:center; margin-top: 10px">
+                <input type="submit" value="Save Changes" class="btn btn-light" />
             </div>
         </form>
     </div>

@@ -7,7 +7,7 @@
 <div class="white-groupbox" style="padding: 10px 10px 10px 10px">
     <form asp-controller="Users" asp-action="CreateUser">
         <div class="form-group" style="text-align:center;">
-            <input formmethod="get" id="createUserButton" type="submit" value="Create user" class="btn btn-primary" />
+            <input formmethod="get" id="CRUDButton" type="submit" value="Create user" class="btn btn-primary" />
         </div>
     </form>
 
@@ -26,7 +26,7 @@
                 <th>
                     Email
                 </th>
-                <th>Actions</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -48,15 +48,20 @@
                             @user.Email
                         </td>
                         <td>
-                            <div class="row text-center" style="margin: 0px 0px 0px 0px; padding: 0px 0px 0px 0px;">
-                                <form asp-controller="Users" asp-action="UserDetails" asp-route-username=@user.Username>
-                                    <input id="createUserButton" style="margin-left: 8px; margin-right: 8px" type="submit" value="Details" class="btn btn-primary btn-sm" />
-                                </form>
-                                <form asp-controller="Users" asp-action="EditUser" asp-route-username=@user.Username>
-                                    <input formmethod="get" id="createUserButton" style="margin-left: 8px; margin-right: 8px" type="submit" value="Edit" class="btn btn-primary btn-sm" />
-                                </form>
+                            <div class="float-right">
                                 <form asp-controller="Users" asp-action="DeleteUser" asp-route-username=@user.Username>
-                                    <input id="createUserButton" style="margin-left: 8px; margin-right: 8px" type="submit" value="Delete" class="btn btn-primary btn-sm" />
+                                    <input id="CRUDButton" style="margin-left: 8px; margin-right: 8px" type="submit" value="Delete" class="btn btn-primary btn-sm" />
+                                </form>
+                            </div>
+                            <div class="float-right">
+                                <form asp-controller="Users" asp-action="EditUser" asp-route-username=@user.Username>
+                                    <input formmethod="get" id="CRUDButton" style="margin-left: 8px; margin-right: 8px" type="submit" value="Edit" class="btn btn-primary btn-sm" />
+                                </form>
+                            </div>
+
+                            <div class="float-right">
+                                <form asp-controller="Users" asp-action="UserDetails" asp-route-username=@user.Username>
+                                    <input id="CRUDButton" style="margin-left: 8px; margin-right: 8px" type="submit" value="Details" class="btn btn-primary btn-sm" />
                                 </form>
                             </div>
                         </td>

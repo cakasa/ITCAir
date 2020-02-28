@@ -1,10 +1,10 @@
 ﻿@model ITCAir.Web.Models.Reservations.FirstStepReservationModel
 @using ITCAir.Web.GlobalConstants
 @using ITCAir.Web.Models.Flights
-@inject AllFlightsViewModel Flights
+@inject AllFlightsForReservationsViewModel Flights
 @{
     ViewData["Title"] = "Index";
-    this.Flights = (AllFlightsViewModel)this.ViewData["AllFlightInfo"];
+    this.Flights = (AllFlightsForReservationsViewModel)this.ViewData["AllFlightInfo"];
 }
 <style>
     .One input {

@@ -3,6 +3,14 @@
 @using ITCAir.Web.Models.Flights
 @inject AllFlightsViewModel Flights
 @{
+    if (ViewData["ChooseGoing"] == null)
+    {
+        ViewData["ChooseGoing"] = -1;
+    }
+    if (ViewData["ChooseReturning"] == null)
+    {
+        ViewData["ChooseReturning"] = -1;
+    }
     ViewData["Title"] = "Index";
     this.Flights = (AllFlightsViewModel)this.ViewData["AllFlightInfo"];
 }
@@ -15,12 +23,12 @@
     <form asp-controller="Reservations" asp-action="ProcessFirstStepReservationOnTop">
         <div class="form-row gradient-groupbox" style="padding: 5px 5px 3px 3px; border-radius: 5px;">
             <div class="form-group col-md-3">
-                <label asp-for="From" class ="control-label" for="inputFrom">From</label>
+                <label asp-for="From" class="control-label" for="inputFrom">From</label>
                 <input asp-for="From" class="form-control" id="inputFrom">
                 <span asp-validation-for="From" class="text-danger"></span>
             </div>
             <div class="form-group col-md-3">
-                <label asp-for="To" class ="control-label" for="inputTo">To</label>
+                <label asp-for="To" class="control-label" for="inputTo">To</label>
                 <input asp-for="To" class="form-control" id="inputTo">
                 <span asp-validation-for="To" class="text-danger"></span>
             </div>
@@ -40,13 +48,13 @@
                 <span asp-validation-for="People" class="text-danger"></span>
             </div>
             <div class="form-group col-md-1 justify-content-end">
-                <input style ="align-self: baseline;"type="submit" value="Go!" class="btn btn-light"/>
+                <input style="align-self: baseline;" type="submit" value="Go!" class="btn btn-light" />
             </div>
         </div>
     </form>
 </div>
 
-<div class ="white-groupbox" style="margin-top: 30px; padding: 15px 15px 15px 15px; border-radius: 5px;">
+<div class="white-groupbox" style="margin-top: 30px; padding: 15px 15px 15px 15px; border-radius: 5px;">
     <table class="table">
         <thead>
             <tr>
@@ -79,7 +87,17 @@
                     </td>
                     <td>
                         <a asp-controller="Reservations" asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                        <a asp-action="Delete">Delete</a>@*asp-route-id="@item.Id"*@
+                        @{
+                            if ((int)this.ViewData["ChooseGoing"] == item.Id)
+                            {
+                                <a asp-route-id="@item.Id" asp-action="BookForGoind">Booked</a>@*asp-route-id="@item.Id"*@
+                            }
+                            else
+                            {
+                                <a asp-route-id="@item.Id" asp-action="BookForGoind">Book</a>@*asp-route-id="@item.Id"*@
+                            }
+
+                        }
                     </td>
                 </tr>
             }
@@ -99,7 +117,7 @@
 @{
     if (ModelClass.OneWay == false)
     {
-        <div class ="white-groupbox" style="margin-top: 30px; padding: 15px 15px 15px 15px; border-radius: 5px;">
+        <div class="white-groupbox" style="margin-top: 30px; padding: 15px 15px 15px 15px; border-radius: 5px;">
             <table class="table">
                 <thead>
                     <tr>
@@ -132,7 +150,17 @@
                             </td>
                             <td>
                                 <a asp-controller="Reservations" asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                                <a asp-action="Delete">Delete</a>@*asp-route-id="@item.Id"*@
+                                @{
+                                    if ((int)this.ViewData["ChooseReturning"] == item.Id)
+                                    {
+                                        <a asp-route-id="@item.Id" asp-action="BookForReturning">Booked</a>@*asp-route-id="@item.Id"*@
+                                    }
+                                    else
+                                    {
+                                        <a asp-route-id="@item.Id" asp-action="BookForReturning">Book</a>@*asp-route-id="@item.Id"*@
+                                    }
+
+                                }
                             </td>
                         </tr>
                     }
@@ -145,6 +173,14 @@
                         </li>
                     }
                 </ul>
+                <div class="One">
+                    <form asp-controller="Reservations" asp-action="RegisterPassengers">
+
+                        <div class="form-group col-md-1 justify-content-end">
+                            <input style="align-self: baseline;" type="submit" value="Go!" class="btn btn-light" />
+                        </div>
+                    </form>
+                </div>
             </table>
         </div>
     }

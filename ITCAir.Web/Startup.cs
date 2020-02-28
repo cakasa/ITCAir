@@ -28,6 +28,7 @@ namespace ITCAir.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddServerSideBlazor();
             services.AddTransient<AllFlightsViewModel>();
             services.AddControllersWithViews();
             services.AddDbContext<ITCAirContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
@@ -60,6 +61,7 @@ namespace ITCAir.Web
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapBlazorHub();
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Reservations}/{action=Index}/{id?}");

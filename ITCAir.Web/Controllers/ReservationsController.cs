@@ -35,6 +35,7 @@ namespace ITCAir.Web.Controllers
         {
             if (ModelState.IsValid)
             {
+                ModelClass.PassengersCount = model.People;
                 ModelClass.OneWay = oneWay;
                 ModelClass.SecondModel = model;
                 GetViewData(model);
@@ -130,10 +131,49 @@ namespace ITCAir.Web.Controllers
 
         public IActionResult ReturnFromEdit()
         {
-            // HttpCookie myCookie = new HttpCookie("MyTestCookie");
+            this.ViewData["ChooseGoing"] = FlightsClass.GoingPlaneId;
+            this.ViewData["ChooseReturning"] = FlightsClass.ReturningPlaneId;
             var ReadetModel = ModelClass.SecondModel;
             GetViewData(ReadetModel);
             return View("ReservationsFlights", ReadetModel);
         }
+
+        public IActionResult RedirectToPassangers(int Id)
+        {
+            return View("ReservationsPassengers");
+        }
+
+        public IActionResult BookInfo()
+        {
+            return View();
+        }
+
+        public IActionResult BookForGoind(string Id)
+        {
+            FlightsClass.GoingPlaneId = int.Parse(Id);
+            this.ViewData["ChooseGoing"] = FlightsClass.GoingPlaneId;
+            this.ViewData["ChooseReturning"] = FlightsClass.ReturningPlaneId;
+
+            var ReadetModel = ModelClass.SecondModel;
+            GetViewData(ReadetModel);
+            return View("ReservationsFlights", ReadetModel);
+        }
+
+        public IActionResult BookForReturning(string Id)
+        {
+            FlightsClass.ReturningPlaneId = int.Parse(Id);
+            this.ViewData["ChooseReturning"] = FlightsClass.ReturningPlaneId;
+            this.ViewData["ChooseGoing"] = FlightsClass.GoingPlaneId;
+
+            var ReadetModel = ModelClass.SecondModel;
+            GetViewData(ReadetModel);
+            return View("ReservationsFlights", ReadetModel);
+        }
+
+        public IActionResult RegisterPassengers()
+        {
+            return View("PassangersInfo");
+        }
+
     }
 }

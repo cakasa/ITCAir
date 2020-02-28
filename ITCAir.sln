@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29613.14
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ITCAir.Web", "ITCAir.Web\ITCAir.Web.csproj", "{BEAB4CBC-D38D-4F8B-A462-C5EA518C0866}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ITCAir.Web", "ITCAir.Web\ITCAir.Web.csproj", "{BEAB4CBC-D38D-4F8B-A462-C5EA518C0866}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ITCAir.Data", "ITCAir.Data\ITCAir.Data.csproj", "{87E63DE3-6DE3-426A-BD74-B248D62D4785}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ITCAir.Data", "ITCAir.Data\ITCAir.Data.csproj", "{87E63DE3-6DE3-426A-BD74-B248D62D4785}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

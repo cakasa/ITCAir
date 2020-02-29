@@ -7,6 +7,6 @@ namespace ITCAir.Data.Enum
     public enum TicketType
     {
         Bussiness=1,
-        Economy=0
+        Economy= 0
     }
 }

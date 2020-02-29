@@ -6,6 +6,7 @@ using ITCAir.Data;
 using ITCAir.Web.Attributes;
 using ITCAir.Web.GlobalConstants;
 using ITCAir.Web.Models.Flights;
+using ITCAir.Web.Models.Passanger;
 using ITCAir.Web.Models.Reservations;
 using ITCAir.Web.Models.Shared;
 using Microsoft.AspNetCore.Mvc;
@@ -25,7 +26,18 @@ namespace ITCAir.Web.Controllers
         [HttpGet]
         public IActionResult Index()
         {
+            ClearStaticClass();
             return View();
+        }
+        private void ClearStaticClass()
+        {
+            ModelClass.OneWay = default;
+            ModelClass.Passengers = new List<PassengerInfoViewModel>();
+            ModelClass.PassengersCount = default;
+            ModelClass.SecondModel= default;
+            ModelClass.Test= default;
+            FlightsClass.GoingPlaneId= default;
+            FlightsClass.ReturningPlaneId= default;
         }
 
         //When the user type the info of the first page

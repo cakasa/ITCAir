@@ -5,3 +5,165 @@
     @Model
 }
 
+<div class="white-groupbox" style="padding-left:10px; padding-right:10px;">
+    <h4 class="text-center">Flight details</h4>
+    <hr />
+    <table class="table-striped table table-hover" style="border: solid 2px purple;">
+        <thead style="color: #fff; background-color: purple; border: solid 3px purple;">
+            <tr>
+                <th>
+                    From
+                </th>
+                <th>
+                    To
+                </th>
+                <th>
+                    Departure
+                </th>
+                <th>
+                    Arrival
+                </th>
+                <th>
+                    Pln. Id
+                </th>
+                <th>
+                    Pln. Model
+                </th>
+                <th>
+                    Pilot
+                </th>
+                <th>
+                    Ec.
+                </th>
+                <th>
+                    Bus.
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    @Model.ReservedFlight.From
+                </td>
+                <td>
+                    @Model.ReservedFlight.To
+                </td>
+                <td>
+                    @Model.ReservedFlight.Departure
+                </td>
+                <td>
+                    @Model.ReservedFlight.Arrival
+                </td>
+                <td>
+                    @Model.ReservedFlight.PlaneId
+                </td>
+                <td>
+                    @Model.ReservedFlight.PlaneModel
+                </td>
+                <td>
+                    @Model.ReservedFlight.PilotName
+                </td>
+                <td>
+                    @Model.ReservedFlight.EconomyCapacity
+                </td>
+                <td>
+                    @Model.ReservedFlight.BusinessCapacity
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <form method="get" asp-controller="Reservations" asp-action="AllReservations">
+        <div class="form-group" style="text-align:center;">
+            <input formmethod="get" id="CRUDButton" type="submit" value="Back to AllReservations" class="btn btn-primary" />
+        </div>
+    </form>
+</div>
+
+<div class="white-groupbox" style="padding-left:10px; padding-right:10px; margin-top:20px;">
+    <h4 class="text-center"> Passengers</h4>
+    <hr />
+    @if (Model.AllPassengers.Count > 0)
+    {
+        <table class="table-striped table table-hover" style="border: solid 2px purple;">
+            <thead style="color: #fff; background-color: purple; border: solid 3px purple;">
+                <tr>
+                    <th>
+                        Res. Email
+                    </th>
+                    <th>
+                        Personal Id
+                    </th>
+                    <th>
+                        First Name
+                    </th>
+                    <th>
+                        Middle Name
+                    </th>
+                    <th>
+                        Last Name
+                    </th>
+                    <th>
+                        Nationality
+                    </th>
+                    <th>
+                        Phone Number
+                    </th>
+                    <th>
+                        Ticket Type
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    foreach (var passanger in Model.AllPassengers)
+                    {
+                        <tr>
+                            <td style="vertical-align:middle" >
+                                @Model.ReservationEmail
+                            </td>
+                            <td>
+                                @passanger.PersonalId
+                            </td>
+                            <td>
+                                @passanger.FirstName
+                            </td>
+                            <td>
+                                @passanger.MiddleName
+                            </td>
+                            <td>
+                                @passanger.LastName
+                            </td>
+                            <td>
+                                @passanger.Nationality
+                            </td>
+                            <td>
+                                @passanger.Phone
+                            </td>
+                            @if (passanger.IsBusinessClass == true)
+                            {
+                                <td>
+                                    Business
+                                </td>
+                            }
+                            else
+                            {
+                                <td>
+                                    Economy
+                                </td>
+                            }
+                        </tr>
+                               
+                    }
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <div class="text-center">
+            <h2 style="margin-bottom:25px;">There are no passengers for this flight</h2>
+        </div>
+    }
+</div>
+

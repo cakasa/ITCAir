@@ -13,6 +13,8 @@ namespace ITCAir.Data.Entities
 
         public virtual Flight Flight { get; set; }
 
+        public bool IsConfirmed { get; set; }
+
         public virtual ICollection<Passenger> Passengers { get; set; }  
     }
 }

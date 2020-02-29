@@ -30,6 +30,8 @@ namespace ITCAir.Web.Controllers
 
         public IActionResult SendEmail(PassengerInfoViewModel passengerInfo)
         {
+            
+
             StringBuilder sb = FormatBody();
 
             MailMessage mail = new MailMessage();
@@ -52,6 +54,11 @@ namespace ITCAir.Web.Controllers
             return View("ThanksForReservation");
         }
 
+        public IActionResult ThanksForReservation()
+        {
+            return View("ThanksForReservation");
+        }
+
         public void SaveData(string personEmail)
         {
             Reservation curReservationGoing = new Reservation();
@@ -60,6 +67,7 @@ namespace ITCAir.Web.Controllers
 
             this.context.Reservations.Add(curReservationGoing);
             this.context.SaveChanges();
+            ConfirmEmail.ReservationIdGoing = this.context.Reservations.ToList().Last().Id;
             int curReservationId = this.context.Reservations.ToList().Last().Id;
 
             List<Passenger> allPassengers = new List<Passenger>();
@@ -90,6 +98,7 @@ namespace ITCAir.Web.Controllers
 
                 this.context.Reservations.Add(curReservationReturning);
                 this.context.SaveChanges();
+                ConfirmEmail.ReservationIdReturning = this.context.Reservations.ToList().Last().Id;
                 int curReservationReturningId = this.context.Reservations.ToList().Last().Id;
 
                 foreach (var passenger in ModelClass.Passengers)
@@ -135,6 +144,11 @@ namespace ITCAir.Web.Controllers
                 sb.AppendLine($"Flight From:{returningFlight.From} To:{returningFlight.To} Depart At:{returningFlight.Departure}" +
                 $" Arrive At:{returningFlight.Arrival} {EmailFormating.NewLine}");
             }
+            Random generator = new Random();
+            int generatedToken = int.Parse(generator.Next(0, 999999).ToString("D6"));
+            sb.AppendLine($"Your Confirmation code is: {EmailFormating.NewLine}");
+            sb.AppendLine($"{generatedToken}");
+            ConfirmEmail.ValidationToken = generatedToken;
 
             return sb;
         }

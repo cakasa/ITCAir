@@ -1,9 +1,26 @@
-﻿@using ITCAir.Web.Controllers
+﻿@model ITCAir.Web.Models.Reservations.EmailConfirmViewModel
+@using ITCAir.Web.GlobalConstants
 @{
     ViewData["Title"] = "ThanksForReservation";
 }
 
 <h1>Thanks for your reservation</h1>
 <p>Please Confirm your reservation by your email</p>
+<form asp-controller="Reservations" asp-action="CheckEmailConfirm">
+    <div class="form-row gradient-groupbox" style="padding: 10px 10px 5px 5px; border-radius: 10px;">
+        <div class="form-group col-md-3">
+            <label asp-for="EnteredNumber" class="control-label" for="inputFrom">6 Digit number</label>
+            <input asp-for="EnteredNumber" class="form-control" id="inputFirstName">
+            <span asp-validation-for="EnteredNumber" class="text-danger"></span>
+        </div>
+        <div class="form-group col-md-1 justify-content-end">
+            <input style="align-self: baseline;" type="submit" value="SendEmail" class="btn btn-light" />
+        </div>
+    </div>
+</form>
+@if (ConfirmEmail.EmailConfirmed)
+{
+    <p>Reservation is Confirmed</p>
+}
 <a class="nav-link text-dark" asp-area="" asp-controller="Reservations" asp-action="Index">Return to Home Page</a>
 

@@ -188,6 +188,26 @@ namespace ITCAir.Web.Controllers
             return View("PassangersInfo");
         }
 
+        public  IActionResult CheckEmailConfirm(EmailConfirmViewModel confirmEmail)
+        {
+            if (ConfirmEmail.ValidationToken != confirmEmail.EnteredNumber)
+            {
+                return RedirectToAction("ThanksForReservation", "Passengers");
+            }
+            else
+            {
+                this.context.Reservations.First(r => r.Id == ConfirmEmail.ReservationIdGoing).IsConfirmed = true;
+                this.context.SaveChanges();
+
+                if (ConfirmEmail.ReservationIdReturning != 0)
+                {
+                    this.context.Reservations.First(r => r.Id == ConfirmEmail.ReservationIdReturning).IsConfirmed = true;
+                    this.context.SaveChanges();
+                }
+            }
+            return RedirectToAction("ThanksForReservation", "Passengers");
+        }
+
         public IActionResult AllReservations()
         {
             List<AllReservationsViewModel> allReservationsViewModel = new List<AllReservationsViewModel>();

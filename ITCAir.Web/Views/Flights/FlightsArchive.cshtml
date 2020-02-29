@@ -1,0 +1,72 @@
+﻿@model ITCAir.Web.Models.Flights.AllFlightsViewModel;
+@using ITCAir.Web.Models.Flights;
+@{
+    ViewData["Title"] = "Flights Archive";
+}
+
+<div class="white-groupbox" style="padding: 10px 10px 10px 10px">
+    <div class="text-center" style="margin-bottom: 15px">
+        <h2>Flights Archive</h2>
+        <hr />
+    </div>
+
+    <form method="get" asp-controller="Flights" asp-action="Flights">
+        <div class="form-group" style="text-align:center;">
+            <input formmethod="get" id="CRUDButton" type="submit" value="Back to Upcoming flights" class="btn btn-primary" />
+        </div>
+    </form>
+    <table class="table-striped table table-hover" style="border: solid 2px purple;">
+        <thead style="color: #fff; background-color: purple; border: solid 3px purple;">
+            <tr>
+                <th>
+                    From
+                </th>
+                <th>
+                    To
+                </th>
+                <th>
+                    Date of Departure
+                </th>
+                <th>
+                    Time of Departure
+                </th>
+                <th>
+                    Duration
+                </th>
+                <th></th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var singleFlight in Model.allFlights)
+            {
+                <tr>
+                    <td>
+                        @singleFlight.From
+                    </td>
+                    <td>
+                        @singleFlight.To
+                    </td>
+                    <td>
+                        @singleFlight.Departure.ToShortDateString()
+                    </td>
+                    <td>
+                        @singleFlight.Departure.ToShortTimeString()
+                    </td>
+                    <td>
+                        @singleFlight.Duration
+                    </td>
+                    <td>
+                        <div class="float-right">
+                            <form asp-controller="Flights" asp-action="FlightDetails" asp-route-id=@singleFlight.Id>
+                                <input id="CRUDButton" formmethod="get" style="margin-left: 8px; margin-right: 8px" type="submit" value="Details" class="btn btn-primary btn-sm" />
+                            </form>
+                        </div>
+                    </td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>

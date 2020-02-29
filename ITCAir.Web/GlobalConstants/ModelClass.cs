@@ -1,4 +1,4 @@
-﻿using ITCAir.Web.Models.Passanger;
+﻿using ITCAir.Web.Models.Passengers;
 using ITCAir.Web.Models.Reservations;
 using System;
 using System.Collections.Generic;

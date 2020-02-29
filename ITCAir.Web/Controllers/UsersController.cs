@@ -86,6 +86,12 @@ namespace ITCAir.Web.Controllers
             return View("Users", GetUsers());
         }
 
+        public IActionResult ClearFilter()
+        {
+            UserFilteringAndPaging.ClearFilter();
+            return View("Users", GetUsers());
+        }
+
         public IActionResult Filter(AllUsersViewModel model)
         {
             UserFilteringAndPaging.ClearFilter();
@@ -116,7 +122,27 @@ namespace ITCAir.Web.Controllers
             AllUsersViewModel model = new AllUsersViewModel();
             model.AllUsers = new List<UserInfoViewModel>();
             var validUsers = userManager.Users.Where(x => x.UserName != "admin");
-            // Add Filtering
+            
+            if(UserFilteringAndPaging.FilterType!=UserFilterType.None)
+            {
+                string filter = UserFilteringAndPaging.Filter;
+                switch(UserFilteringAndPaging.FilterType)
+                {
+                    case UserFilterType.FirstName:
+                        validUsers = validUsers.Where(user => user.FirstName.Contains(filter));
+                        break;
+                    case UserFilterType.LastName:
+                        validUsers = validUsers.Where(user => user.LastName.Contains(filter));
+                        break;
+                    case UserFilterType.Email:
+                        validUsers = validUsers.Where(user => user.Email.Contains(filter));
+                        break;
+                    case UserFilterType.Username:
+                        validUsers = validUsers.Where(user => user.UserName.Contains(filter));
+                        break;
+                }
+            }
+
             var pageUsers = validUsers
                                 .Skip((UserFilteringAndPaging.Pager.CurrentPage - 1) * UserFilteringAndPaging.Pager.PageSize)
                                 .Take(UserFilteringAndPaging.Pager.PageSize).ToList();

@@ -36,10 +36,10 @@ namespace ITCAir.Web.Controllers
             ModelClass.OneWay = default;
             ModelClass.Passengers = new List<PassengerInfoViewModel>();
             ModelClass.PassengersCount = default;
-            ModelClass.SecondModel= default;
-            ModelClass.Test= default;
-            FlightsClass.GoingPlaneId= default;
-            FlightsClass.ReturningPlaneId= default;
+            ModelClass.SecondModel = default;
+            ModelClass.Test = default;
+            FlightsClass.GoingPlaneId = default;
+            FlightsClass.ReturningPlaneId = default;
         }
 
         //When the user type the info of the first page
@@ -189,7 +189,7 @@ namespace ITCAir.Web.Controllers
             return View("PassangersInfo");
         }
 
-        public  IActionResult CheckEmailConfirm(EmailConfirmViewModel confirmEmail)
+        public IActionResult CheckEmailConfirm(EmailConfirmViewModel confirmEmail)
         {
             if (ConfirmEmail.ValidationToken != confirmEmail.EnteredNumber)
             {
@@ -242,9 +242,9 @@ namespace ITCAir.Web.Controllers
             return View(GetAllReservations(true));
         }
 
-        public AllReservationsViewModel GetAllReservations(bool hasBeenRedirected= false)
+        public AllReservationsViewModel GetAllReservations(bool hasBeenRedirected = false)
         {
-            if(hasBeenRedirected)
+            if (hasBeenRedirected)
             {
                 ReservationsFilteringAndPaging.Clear();
             }
@@ -268,13 +268,14 @@ namespace ITCAir.Web.Controllers
 
             ReservationViewModel curReserv = new ReservationViewModel();
 
-            
+
             foreach (var reservation in pageReservations)
             {
                 curReserv.ReservationId = reservation.Id;
                 curReserv.ReservedFlight = reservation.Flight;
                 curReserv.ReservationEmail = reservation.Email;
                 curReserv.AllPassengers = reservation.Passengers;
+                curReserv.Confirmed = reservation.IsConfirmed;
 
                 reservations.Add(curReserv);
                 curReserv = new ReservationViewModel();
@@ -298,6 +299,15 @@ namespace ITCAir.Web.Controllers
             reservation.ReservationId = currentReservation.Id;
 
             return View(reservation);
+        }
+
+        public IActionResult DeleteReservation(int Id)
+        {
+            var curReservation = this.context.Reservations.First(r => r.Id == Id);
+            this.context.Reservations.Remove(curReservation);
+            this.context.SaveChanges();
+
+            return RedirectToAction("AllReservations");
         }
     }
 }

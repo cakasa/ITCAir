@@ -15,6 +15,8 @@ namespace ITCAir.Web.Models.Reservations
 
         public string ReservationEmail { get; set; }
 
+        public bool Confirmed { get; set; }
+
         public ICollection<Passenger> AllPassengers { get; set; }
     }
 }

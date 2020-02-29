@@ -62,7 +62,7 @@
                     Departure
                 </th>
                 <th>
-                    Arrival
+                    Confirmed?
                 </th>
                 <th></th>
             </tr>
@@ -86,20 +86,31 @@
                     <td>
                         @reservation.ReservedFlight.Departure
                     </td>
+                    @if (reservation.Confirmed)
+                    {
+                        <td>Confirmed</td>
+                    }
+                    else
+                    {
+                        <td>Not Confirmed</td>
+                    }
+
                     <td>
-                        @reservation.ReservedFlight.Arrival
-                    </td>
-                    <td>
-                        <div class="float-right">
-                            <form asp-controller="Flights" asp-action="DeleteFlight" asp-route-id=@reservation.ReservationId>
-                                <input id="CRUDButton" style="margin-left: 8px; margin-right: 8px" type="submit" value="Delete" class="btn btn-primary btn-sm" />
-                            </form>
-                        </div>
+
                         <div class="float-right">
                             <form asp-controller="Reservations" asp-action="AllReservationsDetails" asp-route-id=@reservation.ReservationId>
                                 <input id="CRUDButton" style="margin-left: 8px; margin-right: 8px" type="submit" value="Details" class="btn btn-primary btn-sm" />
                             </form>
                         </div>
+                        @if (!reservation.Confirmed)
+                        {
+                            <div class="float-right">
+                                <form asp-controller="Reservations" asp-action="DeleteReservation" asp-route-id=@reservation.ReservationId>
+                                    <input id="CRUDButton" style="margin-left: 8px; margin-right: 8px" type="submit" value="Delete" class="btn btn-primary btn-sm" />
+                                </form>
+                            </div>
+                        }
+
                     </td>
                 </tr>
             }

@@ -29,7 +29,7 @@ namespace ITCAir.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddServerSideBlazor();
-            services.AddTransient<AllFlightsViewModel>();
+            services.AddTransient<AllFlightsForReservationsViewModel>();
             services.AddControllersWithViews();
             services.AddDbContext<ITCAirContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddIdentity<User, IdentityRole>()

@@ -173,15 +173,21 @@
                         </li>
                     }
                 </ul>
-                <div class="One">
-                    <form asp-controller="Reservations" asp-action="RegisterPassengers">
-
-                        <div class="form-group col-md-1 justify-content-end">
-                            <input style="align-self: baseline;" type="submit" value="Go!" class="btn btn-light" />
-                        </div>
-                    </form>
-                </div>
             </table>
         </div>
     }
+
+    if (ModelClass.OneWay && FlightsClass.GoingPlaneId != 0 || FlightsClass.GoingPlaneId != 0
+                && FlightsClass.ReturningPlaneId != 0)
+    {
+        <div class="One">
+            <form asp-controller="Reservations" asp-action="RegisterPassengers">
+
+                <div class="form-group col-md-1 justify-content-end">
+                    <input style="align-self: baseline;" type="submit" value="Go!" class="btn btn-light" />
+                </div>
+            </form>
+        </div>
+    }
+
 }

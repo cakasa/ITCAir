@@ -80,7 +80,7 @@ namespace ITCAir.Web.Controllers
                 curPassanger.ReservationId = curReservationId;
                 this.context.Passengers.Add(curPassanger);
             }
-            this.context.SaveChanges();
+                this.context.SaveChanges();
 
             if (!ModelClass.OneWay)
             {

@@ -1,0 +1,60 @@
+﻿@model  List<AllReservationsViewModel> 
+@using ITCAir.Web.Models.Reservations;
+@{
+    ViewData["Title"] = "AllReservations";
+}
+
+
+<div class="white-groupbox" style="padding: 10px 10px 10px 10px">
+    <table class="table-striped table table-hover" style="border: solid 2px purple;">
+        <thead style="color: #fff; background-color: purple; border: solid 3px purple;">
+            <tr>
+                <th>
+                    Email
+                </th>
+                <th>
+                    AllPassengerRes
+                </th>
+                <th>
+                    Date of Departure
+                </th>
+                <th>
+                    Time of Departure
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var singleFlight in Model)
+            {
+                <tr>
+                    <td>
+                        @singleFlight.ReservationEmail
+                    </td>
+                    <td>
+                        @singleFlight.AllPassengers.Count
+                    </td>
+                    <td>
+                        @singleFlight.ReservedFlight.Departure.ToShortDateString()
+                    </td>
+                    <td>
+                        @singleFlight.ReservedFlight.Departure.ToShortTimeString()
+                    </td>
+                        <td>
+                            <div class="float-right">
+                                <form asp-controller="Flights" asp-action="DeleteFlight" asp-route-id=@singleFlight.ReservationId>
+                                    <input id="CRUDButton" style="margin-left: 8px; margin-right: 8px" type="submit" value="Delete" class="btn btn-primary btn-sm" />
+                                </form>
+                            </div>
+                            <div class="float-right">
+                                <form asp-controller="Reservations" asp-action="AllReservationsDetails" asp-route-id=@singleFlight.ReservationId>
+                                    <input id="CRUDButton" style="margin-left: 8px; margin-right: 8px" type="submit" value="Details" class="btn btn-primary btn-sm" />
+                                </form>
+                            </div>
+                        </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ITCAir.Data;
+using ITCAir.Data.Entities;
 using ITCAir.Web.Attributes;
 using ITCAir.Web.GlobalConstants;
 using ITCAir.Web.Models.Flights;
@@ -187,5 +188,38 @@ namespace ITCAir.Web.Controllers
             return View("PassangersInfo");
         }
 
+        public IActionResult AllReservations()
+        {
+            List<AllReservationsViewModel> allReservationsViewModel = new List<AllReservationsViewModel>();
+
+            AllReservationsViewModel curReserv = new AllReservationsViewModel();
+
+            var AllReservations = this.context.Reservations.ToList() ;
+            foreach (var reserv in AllReservations)
+            {
+                curReserv.ReservationId = reserv.Id;
+                curReserv.ReservedFlight = reserv.Flight ;
+                curReserv.ReservationEmail = reserv.Email;
+                curReserv.AllPassengers = reserv.Passengers;
+
+                allReservationsViewModel.Add(curReserv);
+                curReserv = new AllReservationsViewModel();
+
+            }
+            return View(allReservationsViewModel);
+        }
+
+        public IActionResult AllReservationsDetails(int Id)
+        {
+            AllReservationsViewModel allReservationsViewModel = new AllReservationsViewModel();
+
+            Reservation curReservation = this.context.Reservations.First(r => r.Id == Id);
+            allReservationsViewModel.AllPassengers = curReservation.Passengers;
+            allReservationsViewModel.ReservationEmail = curReservation.Email;
+            allReservationsViewModel.ReservedFlight = curReservation.Flight;
+            allReservationsViewModel.ReservationId = curReservation.Id;
+
+            return View(allReservationsViewModel);
+        }
     }
 }

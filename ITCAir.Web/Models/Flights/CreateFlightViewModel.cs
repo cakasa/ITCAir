@@ -16,11 +16,13 @@ namespace ITCAir.Web.Models.Flights
         [MinLength(2, ErrorMessage = "To should be at least 2 symbols long")]
         public string To { get; set; }
         [Required]
+        [UpcomingDate]
         [DataType(DataType.Date, ErrorMessage = "Enter a valid date")]
         public DateTime DateOfDeparture { get; set; }
         [DataType(DataType.Time, ErrorMessage = "Enter a valid time")]
         public DateTime TimeOfDeparture { get; set; }
         [Required]
+        [UpcomingDate]
         [DataType(DataType.Date, ErrorMessage = "Enter a valid date")]
         public DateTime DateOfArrival { get; set; }
         [Required]

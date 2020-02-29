@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace ITCAir.Web.Attributes
 {
-    public class ReservationDateAttribute : ValidationAttribute
+    public class UpcomingDateAttribute : ValidationAttribute
     {
         private static readonly int Day = DateTime.Now.Day;
         private static readonly int Month = DateTime.Now.Month;
         private static readonly int Year = DateTime.Now.Year;
-        private static readonly string ErrorMessage = $"Reservation can't be before {DateTime.Now.ToString("dd/MM/yyyy")}";
+        private static readonly string ErrorMessage = $"Date can't be before {DateTime.Now.ToString("dd/MM/yyyy")}";
 
         protected override ValidationResult IsValid(object value,
            ValidationContext validationContext)

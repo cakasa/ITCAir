@@ -1,7 +1,114 @@
-﻿
+﻿@model ITCAir.Web.Models.Flights.EditFlightViewModel
+
 @{
-    ViewData["Title"] = "EditFlight";
+    ViewData["Title"] = "Edit flight";
 }
 
-<h1>EditFlight</h1>
+<hr />
+<div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-6 gradient-groupbox">
+        <h2 style="text-align: center; color: white;">
+            Edit flight (@Model.From  - @Model.To)
+        </h2>
+        <h6 style="text-align: center; color: white; opacity: 0.8; font-size: 14px;">
+            Edit an existing flight
+        </h6>
+        <hr style="background: radial-gradient( #fff, #c82076)" />
+        <form asp-controller="Flights" asp-action="EditFlight">
+            <div>
+                <div class="row">
+                    <div class="form-group">
+                        <input asp-for="From" type="hidden" />
+                    </div>
+                    <div class="form-group">
+                        <input asp-for="To" type="hidden" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label asp-for="DateOfDeparture" class="control-label">Date of Departure</label>
+                        <input asp-for="DateOfDeparture" class="form-control" />
+                        <span asp-validation-for="DateOfDeparture" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label asp-for="TimeOfDeparture" class="control-label">Time of Departure</label>
+                        <input asp-for="TimeOfDeparture" class="form-control" />
+                        <span asp-validation-for="TimeOfDeparture" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label asp-for="DateOfArrival" class="control-label">Date of Arrival</label>
+                        <input asp-for="DateOfArrival" class="form-control" />
+                        <span asp-validation-for="DateOfArrival" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label asp-for="TimeOfArrival" class="control-label">Time of Arrival</label>
+                        <input asp-for="TimeOfArrival" class="form-control" />
+                        <span asp-validation-for="TimeOfArrival" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label asp-for="PlaneModel" class="control-label">Airplane model</label>
+                    <input asp-for="PlaneModel" class="form-control" />
+                    <span asp-validation-for="PlaneModel" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-6">
+                    <label asp-for="PlaneId" class="control-label">Airplane Id</label>
+                    <input asp-for="PlaneId" class="form-control" />
+                    <span asp-validation-for="PlaneId" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label asp-for="EconomyCapacity" class="control-label">Economy Seats</label>
+                    <input type="number" asp-for="EconomyCapacity" class="form-control" />
+                    <span asp-validation-for="EconomyCapacity" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-6">
+                    <label asp-for="BusinessCapacity" class="control-label">Business Seats</label>
+                    <input asp-for="BusinessCapacity" class="form-control" />
+                    <span asp-validation-for="BusinessCapacity" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3"></div>
+                <div class="form-group col-md-6">
+                    <label asp-for="PilotName" class="control-label">Pilot Name</label>
+                    <input asp-for="PilotName" class="form-control" />
+                    <span asp-validation-for="PilotName" class="text-danger"></span>
+                </div>
+            </div>
+            @{
+                if (!string.IsNullOrEmpty(ViewData["Error"].ToString()))
+                {
+                    <p class="text-danger" style="color:white; text-align:center; padding-bottom:10px">@ViewData["Error"]</p>
+                }
+            }
 
+            <div class="row" style="margin-top : 20px;">
+                <div class="col-2"></div>
+                <div class="col-4" style="text-align:right;">
+                    <input formmethod="get" asp-action="Flights" type="submit" value="Back to Flights" class="btn btn-light" />
+                </div>
+                <div class="form-group col-4" style="text-align:left;">
+                    <input asp-controller="Flights" asp-action="EditFlight" type="submit" value="Save changes" class="btn btn-light" />
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="col-md-3"></div>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        $('#datetimepicker1').datetimepicker();
+    });
+</script>
+@section Scripts {
+
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

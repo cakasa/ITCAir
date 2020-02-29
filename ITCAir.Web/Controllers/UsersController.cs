@@ -61,7 +61,7 @@ namespace ITCAir.Web.Controllers
                 var result = userManager.CreateAsync(newUser, user.Password).GetAwaiter().GetResult();
                 if (result.Succeeded)
                 {
-                    userManager.AddToRoleAsync(newUser, "User");
+                    userManager.AddToRoleAsync(newUser, "User").GetAwaiter().GetResult();
                 }
                 else
                 {
@@ -103,7 +103,7 @@ namespace ITCAir.Web.Controllers
             return model;
         }
 
-        [HttpPost]
+        [HttpPost(@"/EditUser/{username}")]
         [ValidateAntiForgeryToken]
         public IActionResult EditUser(EditUserViewModel user)
         {
@@ -128,7 +128,7 @@ namespace ITCAir.Web.Controllers
             return View("Users", GetUsers());
         }
 
-        [HttpGet("{username}")]
+        [HttpGet("/EditUser/{username}")]
         public IActionResult EditUser(string username)
         {
             User user = userManager.FindByNameAsync(username).GetAwaiter().GetResult();

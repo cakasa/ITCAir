@@ -30,7 +30,7 @@ namespace ITCAir.Web.Controllers
 
         //When the user type the info of the first page
         [HttpPost]
-        [ReservationDate]
+        [UpcomingDate]
         public IActionResult ProcessFirstStepReservation(FirstStepReservationModel model, bool oneWay)
         {
             if (ModelState.IsValid)

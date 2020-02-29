@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ITCAir.Data;
 using ITCAir.Web.GlobalConstants;
-using ITCAir.Web.Models.Passanger;
+using ITCAir.Web.Models.Passengers;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ITCAir.Web.Controllers

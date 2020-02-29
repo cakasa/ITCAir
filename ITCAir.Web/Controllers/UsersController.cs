@@ -4,7 +4,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using ITCAir.Data;
 using ITCAir.Data.Entities;
+using ITCAir.Data.Enum;
+using ITCAir.Web.GlobalConstants;
 using ITCAir.Web.Models;
+using ITCAir.Web.Models.Flights;
+using ITCAir.Web.Models.Shared;
 using ITCAir.Web.Models.User;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -16,7 +20,6 @@ namespace ITCAir.Web.Controllers
     public class UsersController : Controller
     {
         private UserManager<User> userManager;
-        private int PageSize = 10;
 
         public UsersController(UserManager<User> userManager)
         {
@@ -74,21 +77,51 @@ namespace ITCAir.Web.Controllers
                 ViewData["Unique"] = "Something went wrong.";
                 return View("CreateUser");
             }
+            return RedirectToAction("Users", "Users", GetUsers(true));
+        }
+
+        public IActionResult ChangePage(int pageId)
+        {
+            UserFilteringAndPaging.Pager.CurrentPage = pageId;
             return View("Users", GetUsers());
         }
 
-        [HttpGet]
-        public IActionResult Users()
+        public IActionResult Filter(AllUsersViewModel model)
         {
-            AllUsersViewModel model = GetUsers();
-            return View(GetUsers());
+            UserFilteringAndPaging.ClearFilter();
+            UserFilteringAndPaging.FilterType = model.FilterType;
+            UserFilteringAndPaging.Filter = model.Filter;
+            return View("Users", GetUsers());
         }
 
-        public AllUsersViewModel GetUsers()
+        public IActionResult ChangePageSize(int pageSize)
         {
+            UserFilteringAndPaging.Pager.PageSize = pageSize;
+            UserFilteringAndPaging.Pager.CurrentPage = 1;
+            return View("Users", GetUsers());
+        }
+        [HttpGet]
+        public IActionResult Users(AllUsersViewModel model)
+        {
+            return View(GetUsers(true));
+        }
+
+        public AllUsersViewModel GetUsers(bool hasBeenRedirected = false)
+        {
+            if(hasBeenRedirected)
+            {
+                UserFilteringAndPaging.Clear();
+            }
+
             AllUsersViewModel model = new AllUsersViewModel();
             model.AllUsers = new List<UserInfoViewModel>();
-            foreach (var user in userManager.Users)
+            var validUsers = userManager.Users.Where(x => x.UserName != "admin");
+            // Add Filtering
+            var pageUsers = validUsers
+                                .Skip((UserFilteringAndPaging.Pager.CurrentPage - 1) * UserFilteringAndPaging.Pager.PageSize)
+                                .Take(UserFilteringAndPaging.Pager.PageSize).ToList();
+
+            foreach (var user in pageUsers)
             {
                 UserInfoViewModel userInfo = new UserInfoViewModel()
                 {
@@ -100,6 +133,8 @@ namespace ITCAir.Web.Controllers
                 model.AllUsers.Add(userInfo);
             }
 
+
+            UserFilteringAndPaging.Pager.PagesCount = (int)Math.Ceiling(validUsers.Count() / (double)UserFilteringAndPaging.Pager.PageSize);
             return model;
         }
 
@@ -125,7 +160,7 @@ namespace ITCAir.Web.Controllers
             }
 
             ViewData["Unique"] = string.Empty;
-            return View("Users", GetUsers());
+            return RedirectToAction("Users", "Users", GetUsers());
         }
 
         [HttpGet("/EditUser/{username}")]

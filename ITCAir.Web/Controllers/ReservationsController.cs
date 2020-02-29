@@ -6,7 +6,7 @@ using ITCAir.Data;
 using ITCAir.Web.Attributes;
 using ITCAir.Web.GlobalConstants;
 using ITCAir.Web.Models.Flights;
-using ITCAir.Web.Models.Passanger;
+using ITCAir.Web.Models.Passengers;
 using ITCAir.Web.Models.Reservations;
 using ITCAir.Web.Models.Shared;
 using Microsoft.AspNetCore.Mvc;

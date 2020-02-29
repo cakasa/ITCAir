@@ -9,19 +9,26 @@ namespace ITCAir.Web.Attributes
 {
     public class UpcomingDateAttribute : ValidationAttribute
     {
-        private static readonly int Day = DateTime.Now.Day;
-        private static readonly int Month = DateTime.Now.Month;
-        private static readonly int Year = DateTime.Now.Year;
         private static readonly string ErrorMessage = $"Date can't be before {DateTime.Now.ToString("dd/MM/yyyy")}";
 
+        public override bool IsValid(object value)
+        {
+            DateTime date = (DateTime)value;
+
+            if (date < DateTime.Now)
+            {
+                return false;
+            }
+            return true;
+        }
         protected override ValidationResult IsValid(object value,
            ValidationContext validationContext)
-    {
-            int modelDay = (int)DateTime.Parse(value.ToString()).Day;
-            int modelMonth = (int)DateTime.Parse(value.ToString()).Month;
-            int modelYear = (int)DateTime.Parse(value.ToString()).Year;
+        {
+            DateTime date = (DateTime)value;
+            date = date.AddHours(23);
+            date = date.AddMinutes(59);
 
-            if (modelDay < Day && modelMonth < Month || modelYear < Year)
+            if (date < DateTime.Now)
             {
                 return new ValidationResult(ErrorMessage);
             }

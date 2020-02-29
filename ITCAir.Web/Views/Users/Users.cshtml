@@ -1,7 +1,11 @@
 ﻿@model ITCAir.Web.Models.User.AllUsersViewModel;
 @using ITCAir.Web.Models.User;
+@using ITCAir.Web.GlobalConstants;
+@using ITCAir.Data.Enum;
+@using System.Web;
 @{
     ViewData["Title"] = "Users";
+    string filter = !String.IsNullOrEmpty(Model.Filter) ? Model.Filter : string.Empty; 
 }
 
 <div class="white-groupbox" style="padding: 10px 10px 10px 10px">
@@ -14,7 +18,14 @@
             <input formmethod="get" id="CRUDButton" type="submit" value="Create user" class="btn btn-primary" />
         </div>
     </form>
-
+    <form  class="row col-6" asp-action="Filter">
+        <div class="form-group">
+            <input asp-for="Filter" class="form-control" value="@filter"/>
+        </div>
+        <div>
+            <input type="submit" class="btn btn-light" value="Filter" />
+        </div>
+    </form>
     <table class="table-striped table table-hover" style="border: solid 2px purple;">
         <thead style="color: #fff; background-color: purple; border: solid 3px purple;">
             <tr>
@@ -74,4 +85,25 @@
             }
         </tbody>
     </table>
+    <div class="row" style="padding-left:20px;">
+        <ul class="pagination col-10">
+            @for (var i = 1; i <= UserFilteringAndPaging.Pager.PagesCount; i++)
+            {
+                <li class="page-item @(i == UserFilteringAndPaging.Pager.CurrentPage ? "active" : "")">
+                    <a asp-action="ChangePage" asp-route-pageId="@i" class="page-link">@i</a>
+                </li>
+            }
+        </ul>
+        <ul style="margin-right:0px;" class="pagination text-right col-2">
+            <li class="page-item @(UserFilteringAndPaging.Pager.PageSize == 10 ? "active" : "")">
+                <a asp-action="ChangePageSize" asp-route-pageSize="10" class="page-link">10</a>
+            </li>
+            <li class="page-item @(UserFilteringAndPaging.Pager.PageSize == 25 ? "active" : "")">
+                <a asp-action="ChangePageSize" asp-route-pageSize="25" class="page-link">25</a>
+            </li>
+            <li class="page-item @(UserFilteringAndPaging.Pager.PageSize == 50 ? "active" : "")">
+                <a asp-action="ChangePageSize" asp-route-pageSize="50" class="page-link">50</a>
+            </li>
+        </ul>
+    </div>
 </div>

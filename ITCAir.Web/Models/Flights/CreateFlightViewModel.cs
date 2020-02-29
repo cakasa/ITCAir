@@ -15,19 +15,28 @@ namespace ITCAir.Web.Models.Flights
         [Required]
         [MinLength(2, ErrorMessage = "To should be at least 2 symbols long")]
         public string To { get; set; }
+
         [Required]
         [UpcomingDate]
         [DataType(DataType.Date, ErrorMessage = "Enter a valid date")]
         public DateTime DateOfDeparture { get; set; }
+
+        [Required]
         [DataType(DataType.Time, ErrorMessage = "Enter a valid time")]
         public DateTime TimeOfDeparture { get; set; }
+
+
         [Required]
         [UpcomingDate]
         [DataType(DataType.Date, ErrorMessage = "Enter a valid date")]
         public DateTime DateOfArrival { get; set; }
+
+
         [Required]
         [DataType(DataType.Time, ErrorMessage = "Enter a valid time")]
         public DateTime TimeOfArrival { get; set; }
+
+
         [Required]
         [MinLength(2, ErrorMessage = "Airplane type should be at least 2 symbols long")]
         public string PlanetModel { get; set; }
@@ -35,7 +44,7 @@ namespace ITCAir.Web.Models.Flights
         [MinLength(6, ErrorMessage = "Airplane Id should be at least 6 symbols long")]
         public string AirplaneId { get; set; }
         [Required]
-        [MinLength(6, ErrorMessage = "Pilot name should be at least 2 symbols long")]
+        [MinLength(2, ErrorMessage = "Pilot name should be at least 2 symbols long")]
         public string PilotName { get; set; }
         [Required]
         [Range(0, 10000, ErrorMessage = "Economy seats should be non-negative")]

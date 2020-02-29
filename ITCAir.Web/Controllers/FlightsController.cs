@@ -97,7 +97,7 @@ namespace ITCAir.Web.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult CreateFlight(CreateFlightViewModel model)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 Flight flight = new Flight()
                 {
@@ -125,13 +125,23 @@ namespace ITCAir.Web.Controllers
                 if (flight.Arrival < flight.Departure)
                 {
                     ViewData["Error"] = "Arrival cannot be before Departure!";
-                    return View("CreateFlight");
+                    return View(model);
+                }
+                else if (flight.Departure < DateTime.Now)
+                {
+                    ViewData["Error"] = "Date of departure should be after current time";
+                    return View(model);
                 }
                 else
                 {
                     context.Flights.Add(flight);
                     context.SaveChanges();
                 }
+            }
+            else
+            {
+                ViewData["Error"] = "Something went wrong";
+                return View();
             }
             return View("Flights", GetAllUpcomingFlights());
         }
@@ -260,6 +270,16 @@ namespace ITCAir.Web.Controllers
                                                  model.TimeOfDeparture.Minutes,
                                                  0);
 
+                if (flightToEdit.Arrival < flightToEdit.Departure)
+                {
+                    ViewData["Error"] = "Arrival cannot be before Departure!";
+                    return View(model);
+                }
+                else if(flightToEdit.Departure < DateTime.Now)
+                {
+                    ViewData["Error"] = "Date of departure should be after today";
+                    return View(model);
+                }
                 try
                 {
                     context.Update(flightToEdit);

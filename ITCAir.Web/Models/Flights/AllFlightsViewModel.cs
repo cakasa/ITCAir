@@ -8,6 +8,8 @@ namespace ITCAir.Web.Models.Flights
 {
     public class AllFlightsViewModel
     {
+        public string Filter { get; set; }
+        public FlightFilterType FilterType { get; set; }
         public List<SingleFlightViewModel> allFlights { get; set; }
     }
 }

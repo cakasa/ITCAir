@@ -12,6 +12,18 @@ a {
     color: #0366d6;
 }
 
+.filter-box{
+    opacity:0.7;
+    background-color: purple;
+    border-radius:3px;
+    border: dashed 2px black;
+    padding: 3px 3px 0px 3px;
+}
+
+.no-bottom-margin{
+    margin-bottom: 10px !important;
+}
+
 .gradient-groupbox {
     background: linear-gradient(#c82076, purple);
     padding-bottom: 10px;

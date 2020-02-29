@@ -1,4 +1,6 @@
 ﻿@model ITCAir.Web.Models.Flights.AllFlightsViewModel;
+@using ITCAir.Web.GlobalConstants;
+@using ITCAir.Data.Enum;
 @using ITCAir.Web.Models.Flights;
 @{
     ViewData["Title"] = "Flights Archive";
@@ -10,11 +12,44 @@
         <hr />
     </div>
 
-    <form method="get" asp-controller="Flights" asp-action="Flights">
-        <div class="form-group" style="text-align:center;">
-            <input formmethod="get" id="CRUDButton" type="submit" value="Back to Upcoming flights" class="btn btn-primary" />
+    <div class="row">
+        <div class="row col-9" style="margin-left:30px;">
+            <form class="row" style="margin-right:20px;" asp-action="ArchiveFilter">
+                <div class="form-group">
+                    <select asp-for="FilterType" asp-items="@Html.GetEnumSelectList<FlightFilterType>()" class="form-control">
+                    </select>
+                </div>
+                <div class="form-group">
+                    <input asp-for="Filter" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <input type="submit" id="CRUDButton" class="btn btn-light" value="Filter" />
+                </div>
+            </form>
+
+            @{
+                if (FlightFilteringAndPaging.FilterType != FlightFilterType.None)
+                {
+
+                    <div class="filter-box form-group no-bottom-margin" style="margin-right:5px; padding: 0px 5px 0px 5px; vertical-align:central">
+                        <p class="no-bottom-margin" style="vertical-align:central; color:white">@FlightFilteringAndPaging.FilterType = @FlightFilteringAndPaging.Filter</p>
+                    </div>
+
+                    <form asp-action="ClearFlightsFilter">
+                        <div class="form-group no-bottom-margin" style="vertical-align:central">
+                            <input type="submit" id="CRUDButton" class="btn-sm btn-light" value="Clear Filter" />
+                        </div>
+                    </form>
+                }
+            }
         </div>
-    </form>
+        <form method="get" asp-controller="Flights" asp-action="Flights">
+            <div class="form-group" style="text-align:center;">
+                <input formmethod="get" id="CRUDButton" type="submit" value="Back to Upcoming flights" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+
     <table class="table-striped table table-hover" style="border: solid 2px purple;">
         <thead style="color: #fff; background-color: purple; border: solid 3px purple;">
             <tr>
@@ -68,5 +103,25 @@
             }
         </tbody>
     </table>
-
+    <div class="row" style="padding-left:20px;">
+        <ul class="pagination col-10">
+            @for (var i = 1; i <= FlightFilteringAndPaging.Pager.PagesCount; i++)
+            {
+                <li class="page-item @(i == FlightFilteringAndPaging.Pager.CurrentPage ? "active" : "")">
+                    <a asp-action="ChangeArchivePage" asp-route-pageId="@i" class="page-link">@i</a>
+                </li>
+            }
+        </ul>
+        <ul style="margin-right:0px;" class="pagination text-right col-2">
+            <li class="page-item @(FlightFilteringAndPaging.Pager.PageSize == 10 ? "active" : "")">
+                <a asp-action="ChangeArchivePageSize" asp-route-pageSize="10" class="page-link">10</a>
+            </li>
+            <li class="page-item @(FlightFilteringAndPaging.Pager.PageSize == 25 ? "active" : "")">
+                <a asp-action="ChangeArchivePageSize" asp-route-pageSize="25" class="page-link">25</a>
+            </li>
+            <li class="page-item @(FlightFilteringAndPaging.Pager.PageSize == 50 ? "active" : "")">
+                <a asp-action="ChangeArchivePageSize" asp-route-pageSize="50" class="page-link">50</a>
+            </li>
+        </ul>
+    </div>
 </div>

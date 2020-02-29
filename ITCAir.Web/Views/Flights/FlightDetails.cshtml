@@ -1,5 +1,6 @@
 ﻿@using ITCAir.Web.Models.Flights
 @using ITCAir.Data.Enum
+@using ITCAir.Web.GlobalConstants;
 @model FlightDetailsWithPassengersViewModel
 @{
     ViewData["Title"] = "Flight Details";
@@ -193,6 +194,27 @@
                 }
             </tbody>
         </table>
+        <div class="row" style="padding-left:20px;">
+            <ul class="pagination col-10">
+                @for (var i = 1; i <= FlightDetailsPaging.Pager.PagesCount; i++)
+                {
+                    <li class="page-item @(i == FlightDetailsPaging.Pager.CurrentPage ? "active" : "")">
+                        <a asp-action="ChangeFlightReservationsPage" asp-route-pageId="@i" class="page-link">@i</a>
+                    </li>
+                }
+            </ul>
+            <ul style="margin-right:0px;" class="pagination text-right col-2">
+                <li class="page-item @(FlightDetailsPaging.Pager.PageSize == 5 ? "active" : "")">
+                    <a asp-action="ChangeFlightReservationsPageSize" asp-route-pageSize="5" class="page-link">5</a>
+                </li>
+                <li class="page-item @(FlightDetailsPaging.Pager.PageSize == 15 ? "active" : "")">
+                    <a asp-action="ChangeFlightReservationsPageSize" asp-route-pageSize="15" class="page-link">15</a>
+                </li>
+                <li class="page-item @(FlightDetailsPaging.Pager.PageSize == 25 ? "active" : "")">
+                    <a asp-action="ChangeFlightReservationsPageSize" asp-route-pageSize="25" class="page-link">25</a>
+                </li>
+            </ul>
+        </div>
     }
     else
     {

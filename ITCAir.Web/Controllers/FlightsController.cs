@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using ITCAir.Data;
 using ITCAir.Data.Entities;
 using ITCAir.Data.Enum;
+using ITCAir.Web.GlobalConstants;
 using ITCAir.Web.Models.Flights;
 using ITCAir.Web.Models.Passengers;
 using ITCAir.Web.Models.Reservations;
@@ -24,19 +25,97 @@ namespace ITCAir.Web.Controllers
 
         public IActionResult Flights()
         {
-            return View(GetAllUpcomingFlights());
+            return View(GetAllUpcomingFlights(true));
         }
 
         public IActionResult FlightsArchive()
         {
-            return View(GetFlightsArchive());
+            return View(GetFlightsArchive(true));
         }
 
-        public AllFlightsViewModel GetFlightsArchive()
+        public IActionResult ChangeFlightsPage(int pageId)
         {
-            List<Flight> allFlights = context.Flights.Where(x => x.Departure <= DateTime.Now).ToList();
+            FlightFilteringAndPaging.Pager.CurrentPage = pageId;
+            return View("Users", GetAllUpcomingFlights());
+        }
+
+        public IActionResult ClearFlightsFilter()
+        {
+            FlightFilteringAndPaging.ClearFilter();
+            return View("Flights", GetAllUpcomingFlights());
+        }
+
+        public IActionResult FlightsFilter(AllFlightsViewModel model)
+        {
+            FlightFilteringAndPaging.ClearFilter();
+            FlightFilteringAndPaging.FilterType = model.FilterType;
+            FlightFilteringAndPaging.Filter = model.Filter;
+            return View("Flights", GetAllUpcomingFlights());
+        }
+
+        public IActionResult ChangeFlightsPageSize(int pageSize)
+        {
+            FlightFilteringAndPaging.Pager.PageSize = pageSize;
+            FlightFilteringAndPaging.Pager.CurrentPage = 1;
+            return View("Flights", GetAllUpcomingFlights());
+        }
+
+        public IActionResult ChangeArchivePage(int pageId)
+        {
+            FlightFilteringAndPaging.Pager.CurrentPage = pageId;
+            return View("FlightsArchive", GetFlightsArchive());
+        }
+
+        public IActionResult ClearArchiveFilter()
+        {
+            FlightFilteringAndPaging.ClearFilter();
+            return View("FlightsArchive", GetFlightsArchive());
+        }
+
+        public IActionResult ArchiveFilter(AllFlightsViewModel model)
+        {
+            FlightFilteringAndPaging.ClearFilter();
+            FlightFilteringAndPaging.FilterType = model.FilterType;
+            FlightFilteringAndPaging.Filter = model.Filter;
+            return View("FlightsArchive", GetFlightsArchive());
+        }
+
+        public IActionResult ChangeArchivePageSize(int pageSize)
+        {
+            FlightFilteringAndPaging.Pager.PageSize = pageSize;
+            FlightFilteringAndPaging.Pager.CurrentPage = 1;
+            return View("FlightsArchive", GetFlightsArchive());
+        }
+
+        public AllFlightsViewModel GetFlightsArchive(bool hasBeenRedirected = false)
+        {
+            if(hasBeenRedirected)
+            {
+                FlightFilteringAndPaging.Clear();
+            }
+
+            List<Flight> validFlights = context.Flights.Where(x => x.Departure <= DateTime.Now).ToList();
+
+            if (FlightFilteringAndPaging.FilterType != FlightFilterType.None)
+            {
+                string filter = FlightFilteringAndPaging.Filter;
+                switch (FlightFilteringAndPaging.FilterType)
+                {
+                    case FlightFilterType.From:
+                        validFlights = validFlights.Where(flight => flight.From.Contains(filter)).ToList();
+                        break;
+                    case FlightFilterType.To:
+                        validFlights = validFlights.Where(flight => flight.To.Contains(filter)).ToList();
+                        break;
+                }
+            }
+
+            var pageFlights = validFlights
+                                .Skip((FlightFilteringAndPaging.Pager.CurrentPage - 1) * FlightFilteringAndPaging.Pager.PageSize)
+                                .Take(FlightFilteringAndPaging.Pager.PageSize).ToList();
+
             List<SingleFlightViewModel> flightsWithAppropriateData = new List<SingleFlightViewModel>();
-            foreach (var singleFlight in allFlights)
+            foreach (var singleFlight in pageFlights)
             {
                 SingleFlightViewModel flight = new SingleFlightViewModel()
                 {
@@ -49,20 +128,47 @@ namespace ITCAir.Web.Controllers
                 flightsWithAppropriateData.Add(flight);
             }
 
+            
             flightsWithAppropriateData = flightsWithAppropriateData.OrderByDescending(x => x.Departure).ToList();
             AllFlightsViewModel model = new AllFlightsViewModel()
             {
                 allFlights = flightsWithAppropriateData
             };
 
+            FlightFilteringAndPaging.Pager.PagesCount = (int)Math.Ceiling(validFlights.Count() / (double)FlightFilteringAndPaging.Pager.PageSize);
+
             return model;
         }
 
-        public AllFlightsViewModel GetAllUpcomingFlights()
+        public AllFlightsViewModel GetAllUpcomingFlights(bool hasBeenRedirected = false)
         {
-            List<Flight> allFlights = context.Flights.Where(x => x.Departure > DateTime.Now).ToList();
+            if (hasBeenRedirected)
+            {
+                FlightFilteringAndPaging.Clear();
+            }
+
+            List<Flight> validFlights = context.Flights.Where(x => x.Departure > DateTime.Now).ToList();
+
+            if (FlightFilteringAndPaging.FilterType != FlightFilterType.None)
+            {
+                string filter = FlightFilteringAndPaging.Filter;
+                switch (FlightFilteringAndPaging.FilterType)
+                {
+                    case FlightFilterType.From:
+                        validFlights = validFlights.Where(flight => flight.From.Contains(filter)).ToList();
+                        break;
+                    case FlightFilterType.To:
+                        validFlights = validFlights.Where(flight => flight.To.Contains(filter)).ToList();
+                        break;
+                }
+            }
+
+            var pageFlights = validFlights
+                                .Skip((FlightFilteringAndPaging.Pager.CurrentPage - 1) * FlightFilteringAndPaging.Pager.PageSize)
+                                .Take(FlightFilteringAndPaging.Pager.PageSize).ToList();
+
             List<SingleFlightViewModel> flightsWithAppropriateData = new List<SingleFlightViewModel>();
-            foreach (var singleFlight in allFlights)
+            foreach (var singleFlight in pageFlights)
             {
                 SingleFlightViewModel flight = new SingleFlightViewModel()
                 {
@@ -75,11 +181,14 @@ namespace ITCAir.Web.Controllers
                 flightsWithAppropriateData.Add(flight);
             }
 
+
             flightsWithAppropriateData = flightsWithAppropriateData.OrderBy(x => x.Departure).ToList();
             AllFlightsViewModel model = new AllFlightsViewModel()
             {
                 allFlights = flightsWithAppropriateData
             };
+
+            FlightFilteringAndPaging.Pager.PagesCount = (int)Math.Ceiling(validFlights.Count() / (double)FlightFilteringAndPaging.Pager.PageSize);
 
             return model;
         }
@@ -143,7 +252,7 @@ namespace ITCAir.Web.Controllers
                 ViewData["Error"] = "Something went wrong";
                 return View();
             }
-            return View("Flights", GetAllUpcomingFlights());
+            return View("Flights", GetAllUpcomingFlights(true));
         }
 
         [Authorize(Roles = "Admin")]
@@ -160,54 +269,82 @@ namespace ITCAir.Web.Controllers
             return View("Flights", GetAllUpcomingFlights());
         }
 
+        public IActionResult ChangeFlightReservationsPageSize(FlightDetailsViewModel model, int pageSize)
+        {
+            FlightDetailsPaging.Pager.PageSize = pageSize;
+            FlightDetailsPaging.Pager.CurrentPage = 1;
+        
+            return View("FlightDetails", GetFlightDetails());
+        }
+
+        public IActionResult ChangeFlightReservationsPage(FlightDetailsViewModel model, int pageId)
+        {
+            FlightDetailsPaging.Pager.CurrentPage = pageId;
+            return View("FlightDetails", GetFlightDetails());
+        }
+
+        public FlightDetailsWithPassengersViewModel GetFlightDetails(bool hasBeenRedirected = false)
+        {
+            if(hasBeenRedirected)
+            {
+                FlightDetailsPaging.Clear();
+            }
+            var flight = context.Flights.Find(FlightDetailsPaging.FlightId);
+
+            var model = new FlightDetailsWithPassengersViewModel()
+            {
+                From = flight.From,
+                To = flight.To,
+                CapacityBusiness = flight.BusinessCapacity,
+                CapacityEconomy = flight.EconomyCapacity,
+                PlaneId = flight.PlaneId,
+                PilotName = flight.PilotName,
+                PlaneModel = flight.PlaneModel,
+                Arrival = flight.Arrival,
+                Departure = flight.Departure,
+            };
+
+            var reservations = context.Reservations.Where(x => x.FlightId == FlightDetailsPaging.FlightId).ToList();
+            var pageReservations = reservations
+                           .Skip((FlightDetailsPaging.Pager.CurrentPage - 1) * FlightDetailsPaging.Pager.PageSize)
+                           .Take(FlightDetailsPaging.Pager.PageSize).ToList();
+
+            var reservationsModel = new List<DetailedFlightReservationViewModel>();
+            foreach (var reservation in pageReservations)
+            {
+                var reservationModel = new DetailedFlightReservationViewModel();
+                reservationModel.Email = reservation.Email;
+
+                var passengers = context.Passengers.Where(x => x.ReservationId == reservation.Id);
+                var passengersModel = new List<DetailedPassengerInformationViewModel>();
+                foreach (var passenger in passengers)
+                {
+                    var passengerModel = new DetailedPassengerInformationViewModel();
+                    passengerModel.FirstName = passenger.FirstName;
+                    passengerModel.MiddleName = passenger.MiddleName;
+                    passengerModel.LastName = passenger.LastName;
+                    passengerModel.Nationality = passenger.Nationality;
+                    passengerModel.PersonalId = passenger.PersonalId;
+                    passengerModel.PhoneNumber = passenger.Phone;
+                    passengerModel.Ticket = passenger.IsBusinessClass ? TicketType.Bussiness : TicketType.Economy;
+                    passengersModel.Add(passengerModel);
+                }
+                reservationModel.Passengers = passengersModel;
+                reservationsModel.Add(reservationModel);
+            }
+
+            model.Reservations = reservationsModel;
+            FlightDetailsPaging.Pager.PagesCount = (int)Math.Ceiling(reservations.Count() / (double)FlightDetailsPaging.Pager.PageSize);
+            return model;
+        }
+
         [HttpGet]
         public IActionResult FlightDetails(int? id)
-        {
+        {    
             if (context.Flights.Any(x => x.Id == id))
             {
-                var flight = context.Flights.Find(id);
-
-                var model = new FlightDetailsWithPassengersViewModel()
-                {
-                    From = flight.From,
-                    To = flight.To,
-                    CapacityBusiness = flight.BusinessCapacity,
-                    CapacityEconomy = flight.EconomyCapacity,
-                    PlaneId = flight.PlaneId,
-                    PilotName = flight.PilotName,
-                    PlaneModel = flight.PlaneModel,
-                    Arrival = flight.Arrival,
-                    Departure = flight.Departure,
-                };
-
-                var reservations = context.Reservations.Where(x => x.FlightId == id).ToList();
-
-                var reservationsModel = new List<DetailedFlightReservationViewModel>();
-                foreach(var reservation in reservations)
-                {
-                    var reservationModel = new DetailedFlightReservationViewModel();
-                    reservationModel.Email = reservation.Email;
-
-                    var passengers = context.Passengers.Where(x => x.ReservationId == reservation.Id);
-                    var passengersModel = new List<DetailedPassengerInformationViewModel>();
-                    foreach(var passenger in passengers)
-                    {
-                        var passengerModel = new DetailedPassengerInformationViewModel();
-                        passengerModel.FirstName = passenger.FirstName;
-                        passengerModel.MiddleName = passenger.MiddleName;
-                        passengerModel.LastName = passenger.LastName;
-                        passengerModel.Nationality = passenger.Nationality;
-                        passengerModel.PersonalId = passenger.PersonalId;
-                        passengerModel.PhoneNumber = passenger.Phone;
-                        passengerModel.Ticket = passenger.IsBusinessClass ? TicketType.Bussiness : TicketType.Economy;
-                        passengersModel.Add(passengerModel);
-                    }
-                    reservationModel.Passengers = passengersModel;
-                    reservationsModel.Add(reservationModel);
-                }
-
-                model.Reservations = reservationsModel;
-
+                FlightDetailsPaging.FlightId = (int)id;
+                var model = GetFlightDetails(true);
                 return View(model);
             }
             return View("Flights", GetAllUpcomingFlights());

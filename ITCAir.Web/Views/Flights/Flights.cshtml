@@ -1,4 +1,6 @@
 ﻿@model ITCAir.Web.Models.Flights.AllFlightsViewModel;
+@using ITCAir.Web.GlobalConstants;
+@using ITCAir.Data.Enum;
 @using ITCAir.Web.Models.Flights;
 @{
     ViewData["Title"] = "Flights";
@@ -9,8 +11,38 @@
         <h2>Upcoming Flights</h2>
         <hr />
     </div>
-    @{
-        if (User.IsInRole("Admin"))
+    <div class="row">
+        <div class="row col-10" style="margin-left:30px;">
+            <form class="row" style="margin-right:20px;" asp-action="FlightsFilter">
+                <div class="form-group">
+                    <select asp-for="FilterType" asp-items="@Html.GetEnumSelectList<FlightFilterType>()" class="form-control">
+                    </select>
+                </div>
+                <div class="form-group">
+                    <input asp-for="Filter" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <input type="submit" id="CRUDButton" class="btn btn-light" value="Filter" />
+                </div>
+            </form>
+
+            @{
+                if (FlightFilteringAndPaging.FilterType != FlightFilterType.None)
+                {
+
+                    <div class="filter-box form-group no-bottom-margin" style="margin-right:5px; padding: 0px 5px 0px 5px; vertical-align:central">
+                        <p class="no-bottom-margin" style="vertical-align:central; color:white">@FlightFilteringAndPaging.FilterType = @FlightFilteringAndPaging.Filter</p>
+                    </div>
+
+                    <form asp-action="ClearFlightsFilter">
+                        <div class="form-group no-bottom-margin" style="vertical-align:central">
+                            <input type="submit" id="CRUDButton" class="btn-sm btn-light" value="Clear Filter" />
+                        </div>
+                    </form>
+                }
+            }
+        </div>
+        @if (User.IsInRole("Admin"))
         {
             <form method="get" asp-controller="Flights" asp-action="CreateFlight">
                 <div class="form-group" style="text-align:center;">
@@ -18,86 +50,99 @@
                 </div>
             </form>
         }
-    }
-    @{
-        if (Model.allFlights.Count != 0)
-        {
-            <table class="table-striped table table-hover" style="border: solid 2px purple;">
-                <thead style="color: #fff; background-color: purple; border: solid 3px purple;">
-                    <tr>
-                        <th>
-                            From
-                        </th>
-                        <th>
-                            To
-                        </th>
-                        <th>
-                            Date of Departure
-                        </th>
-                        <th>
-                            Time of Departure
-                        </th>
-                        <th>
-                            Duration
-                        </th>
-                        <th></th>
+    </div>
 
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var singleFlight in Model.allFlights)
-                    {
-                        <tr>
-                            <td>
-                                @singleFlight.From
-                            </td>
-                            <td>
-                                @singleFlight.To
-                            </td>
-                            <td>
-                                @singleFlight.Departure.ToShortDateString()
-                            </td>
-                            <td>
-                                @singleFlight.Departure.ToShortTimeString()
-                            </td>
-                            <td>
-                                @singleFlight.Duration
-                            </td>
-                            <td>
-                                @{
-                                    if (User.IsInRole("Admin"))
-                                    {
-                                        <div class="float-right">
-                                            <form asp-controller="Flights" asp-action="DeleteFlight" asp-route-id=@singleFlight.Id>
-                                                <input id="CRUDButton" style="margin-left: 8px; margin-right: 8px" type="submit" value="Delete" class="btn btn-primary btn-sm" />
-                                            </form>
-                                        </div>
+    <table class="table-striped table table-hover" style="border: solid 2px purple;">
+        <thead style="color: #fff; background-color: purple; border: solid 3px purple;">
+            <tr>
+                <th>
+                    From
+                </th>
+                <th>
+                    To
+                </th>
+                <th>
+                    Date of Departure
+                </th>
+                <th>
+                    Time of Departure
+                </th>
+                <th>
+                    Duration
+                </th>
+                <th></th>
 
-                                        <div class="float-right">
-                                            <form asp-controller="Flights" asp-action="EditFlight" asp-route-id=@singleFlight.Id>
-                                                <input formmethod="get" id="CRUDButton" style="margin-left: 8px; margin-right: 8px" type="submit" value="Edit" class="btn btn-primary btn-sm" />
-                                            </form>
-                                        </div>
-                                    }
-                                }
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var singleFlight in Model.allFlights)
+            {
+                <tr>
+                    <td>
+                        @singleFlight.From
+                    </td>
+                    <td>
+                        @singleFlight.To
+                    </td>
+                    <td>
+                        @singleFlight.Departure.ToShortDateString()
+                    </td>
+                    <td>
+                        @singleFlight.Departure.ToShortTimeString()
+                    </td>
+                    <td>
+                        @singleFlight.Duration
+                    </td>
+                    <td>
+                        @{
+                            if (User.IsInRole("Admin"))
+                            {
                                 <div class="float-right">
-                                    <form asp-controller="Flights" asp-action="FlightDetails" asp-route-id=@singleFlight.Id>
-                                        <input id="CRUDButton" formmethod ="get" style="margin-left: 8px; margin-right: 8px" type="submit" value="Details" class="btn btn-primary btn-sm" />
+                                    <form asp-controller="Flights" asp-action="DeleteFlight" asp-route-id=@singleFlight.Id>
+                                        <input id="CRUDButton" style="margin-left: 8px; margin-right: 8px" type="submit" value="Delete" class="btn btn-primary btn-sm" />
                                     </form>
                                 </div>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        }
-        else
-        {
-            <div class="text-center">
-                <h1 style="margin-bottom:25px;">There are no upcoming flights :(</h1>
-            </div>
-        }
-    }
+
+                                <div class="float-right">
+                                    <form asp-controller="Flights" asp-action="EditFlight" asp-route-id=@singleFlight.Id>
+                                        <input formmethod="get" id="CRUDButton" style="margin-left: 8px; margin-right: 8px" type="submit" value="Edit" class="btn btn-primary btn-sm" />
+                                    </form>
+                                </div>
+                            }
+                        }
+                        <div class="float-right">
+                            <form asp-controller="Flights" asp-action="FlightDetails" asp-route-id=@singleFlight.Id>
+                                <input id="CRUDButton" formmethod="get" style="margin-left: 8px; margin-right: 8px" type="submit" value="Details" class="btn btn-primary btn-sm" />
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div class="row" style="padding-left:20px;">
+        <ul class="pagination col-10">
+            @for (var i = 1; i <= FlightFilteringAndPaging.Pager.PagesCount; i++)
+            {
+                <li class="page-item @(i == FlightFilteringAndPaging.Pager.CurrentPage ? "active" : "")">
+                    <a asp-action="ChangeFlightsPage" asp-route-pageId="@i" class="page-link">@i</a>
+                </li>
+            }
+        </ul>
+        <ul style="margin-right:0px;" class="pagination text-right col-2">
+            <li class="page-item @(FlightFilteringAndPaging.Pager.PageSize == 10 ? "active" : "")">
+                <a asp-action="ChangeFlightsPageSize" asp-route-pageSize="10" class="page-link">10</a>
+            </li>
+            <li class="page-item @(FlightFilteringAndPaging.Pager.PageSize == 25 ? "active" : "")">
+                <a asp-action="ChangeFlightsPageSize" asp-route-pageSize="25" class="page-link">25</a>
+            </li>
+            <li class="page-item @(FlightFilteringAndPaging.Pager.PageSize == 50 ? "active" : "")">
+                <a asp-action="ChangeFlightsPageSize" asp-route-pageSize="50" class="page-link">50</a>
+            </li>
+        </ul>
+    </div>
+
+
     <form method="get" asp-controller="Flights" asp-action="FlightsArchive">
         <div class="form-group" style="text-align:center;">
             <input formmethod="get" id="CRUDButton" type="submit" value="Flights Archive" class="btn btn-primary" />

@@ -1,8 +1,7 @@
 ﻿@using ITCAir.Web.Models.Reservations
-@model AllReservationsViewModel
+@model ReservationViewModel
 @{
     ViewData["Title"] = "AllReservationsDetails";
-    @Model
 }
 
 <div class="white-groupbox" style="padding-left:10px; padding-right:10px;">
@@ -75,7 +74,7 @@
 
     <form method="get" asp-controller="Reservations" asp-action="AllReservations">
         <div class="form-group" style="text-align:center;">
-            <input formmethod="get" id="CRUDButton" type="submit" value="Back to AllReservations" class="btn btn-primary" />
+            <input formmethod="get" id="CRUDButton" type="submit" value="Back to All Reservations" class="btn btn-primary" />
         </div>
     </form>
 </div>
@@ -89,7 +88,7 @@
             <thead style="color: #fff; background-color: purple; border: solid 3px purple;">
                 <tr>
                     <th>
-                        Res. Email
+                        Reservation Email
                     </th>
                     <th>
                         Personal Id

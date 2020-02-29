@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ITCAir.Data;
 using ITCAir.Data.Entities;
+using ITCAir.Data.Enum;
 using ITCAir.Web.Attributes;
 using ITCAir.Web.GlobalConstants;
 using ITCAir.Web.Models.Flights;
@@ -208,38 +209,95 @@ namespace ITCAir.Web.Controllers
             return RedirectToAction("ThanksForReservation", "Passengers");
         }
 
+        public IActionResult ChangePage(int pageId)
+        {
+            ReservationsFilteringAndPaging.Pager.CurrentPage = pageId;
+            return View("AllReservations", GetAllReservations());
+        }
+
+        public IActionResult ClearFilter()
+        {
+            ReservationsFilteringAndPaging.ClearFilter();
+            return View("AllReservations", GetAllReservations());
+        }
+
+        public IActionResult Filter(AllReservationsViewModel model)
+        {
+            ReservationsFilteringAndPaging.ClearFilter();
+            ReservationsFilteringAndPaging.FilterType = model.FilterType;
+            ReservationsFilteringAndPaging.Filter = model.Filter;
+            return View("AllReservations", GetAllReservations());
+        }
+
+        public IActionResult ChangePageSize(int pageSize)
+        {
+            ReservationsFilteringAndPaging.Pager.PageSize = pageSize;
+            ReservationsFilteringAndPaging.Pager.CurrentPage = 1;
+            return View("AllReservations", GetAllReservations());
+        }
+
+
         public IActionResult AllReservations()
         {
-            List<AllReservationsViewModel> allReservationsViewModel = new List<AllReservationsViewModel>();
+            return View(GetAllReservations(true));
+        }
 
-            AllReservationsViewModel curReserv = new AllReservationsViewModel();
-
-            var AllReservations = this.context.Reservations.ToList() ;
-            foreach (var reserv in AllReservations)
+        public AllReservationsViewModel GetAllReservations(bool hasBeenRedirected= false)
+        {
+            if(hasBeenRedirected)
             {
-                curReserv.ReservationId = reserv.Id;
-                curReserv.ReservedFlight = reserv.Flight ;
-                curReserv.ReservationEmail = reserv.Email;
-                curReserv.AllPassengers = reserv.Passengers;
-
-                allReservationsViewModel.Add(curReserv);
-                curReserv = new AllReservationsViewModel();
-
+                ReservationsFilteringAndPaging.Clear();
             }
-            return View(allReservationsViewModel);
+
+            var allReservations = this.context.Reservations.ToList();
+            List<ReservationViewModel> reservations = new List<ReservationViewModel>();
+            if (ReservationsFilteringAndPaging.FilterType != ReservationFilterType.None)
+            {
+                string filter = ReservationsFilteringAndPaging.Filter;
+                switch (ReservationsFilteringAndPaging.FilterType)
+                {
+                    case ReservationFilterType.Email:
+                        allReservations = allReservations.Where(reservation => reservation.Email.Contains(ReservationsFilteringAndPaging.Filter)).ToList();
+                        break;
+                }
+            }
+
+            var pageReservations = allReservations
+                                        .Skip((ReservationsFilteringAndPaging.Pager.CurrentPage - 1) * ReservationsFilteringAndPaging.Pager.PageSize)
+                                        .Take(ReservationsFilteringAndPaging.Pager.PageSize).ToList();
+
+            ReservationViewModel curReserv = new ReservationViewModel();
+
+            
+            foreach (var reservation in pageReservations)
+            {
+                curReserv.ReservationId = reservation.Id;
+                curReserv.ReservedFlight = reservation.Flight;
+                curReserv.ReservationEmail = reservation.Email;
+                curReserv.AllPassengers = reservation.Passengers;
+
+                reservations.Add(curReserv);
+                curReserv = new ReservationViewModel();
+            }
+
+            AllReservationsViewModel model = new AllReservationsViewModel();
+            model.AllReservations = reservations;
+
+            ReservationsFilteringAndPaging.Pager.PagesCount = (int)Math.Ceiling(allReservations.Count() / (double)ReservationsFilteringAndPaging.Pager.PageSize);
+            return model;
         }
 
         public IActionResult AllReservationsDetails(int Id)
         {
-            AllReservationsViewModel allReservationsViewModel = new AllReservationsViewModel();
+            ReservationViewModel reservation = new ReservationViewModel();
 
-            Reservation curReservation = this.context.Reservations.First(r => r.Id == Id);
-            allReservationsViewModel.AllPassengers = curReservation.Passengers;
-            allReservationsViewModel.ReservationEmail = curReservation.Email;
-            allReservationsViewModel.ReservedFlight = curReservation.Flight;
-            allReservationsViewModel.ReservationId = curReservation.Id;
+            Reservation currentReservation = this.context.Reservations.First(r => r.Id == Id);
+            reservation.AllPassengers = currentReservation.Passengers;
+            reservation.ReservationEmail = currentReservation.Email;
+            reservation.ReservedFlight = currentReservation.Flight;
+            reservation.ReservationId = currentReservation.Id;
 
-            return View(allReservationsViewModel);
+            return View(reservation);
         }
     }
 }

@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - ITCAir</title>
+    <title>@ViewData["Title"]</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
@@ -12,7 +12,7 @@
     <header style="background-color: #eee">
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm border-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand" style="color:purple" asp-area="" asp-controller="Reservations" asp-action="Index">ITCAir</a>
+                <a class="navbar-brand" style="color:purple" asp-controller="Reservations" asp-action="Index">ITCAir</a>
                 <div>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                             aria-expanded="false" aria-label="Toggle navigation">
@@ -24,7 +24,7 @@
                         @if (this.User.IsInRole("Admin") || this.User.IsInRole("User"))
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Reservations" asp-action="AllReservations">AllReservations</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Reservations" asp-action="AllReservations">All Reservations</a>
                             </li>
                         }
                         @if (this.User.IsInRole("Admin") || this.User.IsInRole("User"))

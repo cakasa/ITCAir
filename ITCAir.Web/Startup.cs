@@ -88,10 +88,10 @@ namespace ITCAir.Web
             {
                 User powerUser = new User
                 {
-                    UserName = "admin",
+                    UserName = Configuration["AdminUsername"]
                 };
 
-                string password = "Pa$$w0rd";
+                string password = Configuration["AdminPassword"];
                 var result = await UserManager.CreateAsync(powerUser, password);
                 if (result.Succeeded)
                 {

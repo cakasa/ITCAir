@@ -1,60 +1,129 @@
-﻿@model  List<AllReservationsViewModel> 
+﻿@model AllReservationsViewModel
+@using ITCAir.Data.Enum;
 @using ITCAir.Web.Models.Reservations;
+@using ITCAir.Web.GlobalConstants;
 @{
-    ViewData["Title"] = "AllReservations";
+    ViewData["Title"] = "All Reservations";
 }
 
 
 <div class="white-groupbox" style="padding: 10px 10px 10px 10px">
+    <div class="text-center" style="margin-bottom: 15px">
+        <h2>All Reservations</h2>
+        <hr />
+    </div>
+    <div class="row">
+        <div class="row col-10" style="margin-left:30px;">
+            <form class="row" style="margin-right:20px;" asp-action="Filter">
+                <div class="form-group">
+                    <select asp-for="FilterType" asp-items="@Html.GetEnumSelectList<ReservationFilterType>()" class="form-control">
+                    </select>
+                </div>
+                <div class="form-group">
+                    <input asp-for="Filter" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <input type="submit" id="CRUDButton" class="btn btn-light" value="Filter" />
+                </div>
+            </form>
+            @{
+                if (ReservationsFilteringAndPaging.FilterType != ReservationFilterType.None)
+                {
+
+                    <div class="filter-box form-group no-bottom-margin" style="margin-right:5px; padding: 0px 5px 0px 5px; vertical-align:central">
+                        <p class="no-bottom-margin" style="vertical-align:central; color:white">@ReservationsFilteringAndPaging.FilterType = @ReservationsFilteringAndPaging.Filter</p>
+                    </div>
+
+                    <form asp-action="ClearFilter">
+                        <div class="form-group no-bottom-margin" style="vertical-align:central">
+                            <input type="submit" id="CRUDButton" class="btn-sm btn-light" value="Clear Filter" />
+                        </div>
+                    </form>
+                }
+            }
+        </div>
+    </div>
     <table class="table-striped table table-hover" style="border: solid 2px purple;">
         <thead style="color: #fff; background-color: purple; border: solid 3px purple;">
             <tr>
                 <th>
-                    Email
+                    Reservation Email
                 </th>
                 <th>
-                    AllPassengerRes
+                    Psgs
                 </th>
                 <th>
-                    Date of Departure
+                    From
                 </th>
                 <th>
-                    Time of Departure
+                    To
+                </th>
+                <th>
+                    Departure
+                </th>
+                <th>
+                    Arrival
                 </th>
                 <th></th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var singleFlight in Model)
+            @foreach (var reservation in Model.AllReservations)
             {
                 <tr>
                     <td>
-                        @singleFlight.ReservationEmail
+                        @reservation.ReservationEmail
                     </td>
                     <td>
-                        @singleFlight.AllPassengers.Count
+                        @reservation.AllPassengers.Count
                     </td>
                     <td>
-                        @singleFlight.ReservedFlight.Departure.ToShortDateString()
+                        @reservation.ReservedFlight.From
                     </td>
                     <td>
-                        @singleFlight.ReservedFlight.Departure.ToShortTimeString()
+                        @reservation.ReservedFlight.To
                     </td>
-                        <td>
-                            <div class="float-right">
-                                <form asp-controller="Flights" asp-action="DeleteFlight" asp-route-id=@singleFlight.ReservationId>
-                                    <input id="CRUDButton" style="margin-left: 8px; margin-right: 8px" type="submit" value="Delete" class="btn btn-primary btn-sm" />
-                                </form>
-                            </div>
-                            <div class="float-right">
-                                <form asp-controller="Reservations" asp-action="AllReservationsDetails" asp-route-id=@singleFlight.ReservationId>
-                                    <input id="CRUDButton" style="margin-left: 8px; margin-right: 8px" type="submit" value="Details" class="btn btn-primary btn-sm" />
-                                </form>
-                            </div>
-                        </td>
+                    <td>
+                        @reservation.ReservedFlight.Departure
+                    </td>
+                    <td>
+                        @reservation.ReservedFlight.Arrival
+                    </td>
+                    <td>
+                        <div class="float-right">
+                            <form asp-controller="Flights" asp-action="DeleteFlight" asp-route-id=@reservation.ReservationId>
+                                <input id="CRUDButton" style="margin-left: 8px; margin-right: 8px" type="submit" value="Delete" class="btn btn-primary btn-sm" />
+                            </form>
+                        </div>
+                        <div class="float-right">
+                            <form asp-controller="Reservations" asp-action="AllReservationsDetails" asp-route-id=@reservation.ReservationId>
+                                <input id="CRUDButton" style="margin-left: 8px; margin-right: 8px" type="submit" value="Details" class="btn btn-primary btn-sm" />
+                            </form>
+                        </div>
+                    </td>
                 </tr>
             }
         </tbody>
     </table>
-
+    <div class="row" style="padding-left:20px;">
+        <ul class="pagination col-10">
+            @for (var i = 1; i <= ReservationsFilteringAndPaging.Pager.PagesCount; i++)
+            {
+                <li class="page-item @(i == ReservationsFilteringAndPaging.Pager.CurrentPage ? "active" : "")">
+                    <a asp-action="ChangePage" asp-route-pageId="@i" class="page-link">@i</a>
+                </li>
+            }
+        </ul>
+        <ul style="margin-right:0px;" class="pagination text-right col-2">
+            <li class="page-item @(ReservationsFilteringAndPaging.Pager.PageSize == 10 ? "active" : "")">
+                <a asp-action="ChangePageSize" asp-route-pageSize="10" class="page-link">10</a>
+            </li>
+            <li class="page-item @(ReservationsFilteringAndPaging.Pager.PageSize == 25 ? "active" : "")">
+                <a asp-action="ChangePageSize" asp-route-pageSize="25" class="page-link">25</a>
+            </li>
+            <li class="page-item @(ReservationsFilteringAndPaging.Pager.PageSize == 50 ? "active" : "")">
+                <a asp-action="ChangePageSize" asp-route-pageSize="50" class="page-link">50</a>
+            </li>
+        </ul>
+    </div>
 </div>

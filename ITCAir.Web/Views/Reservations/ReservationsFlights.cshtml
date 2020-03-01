@@ -21,7 +21,7 @@
 </style>
 <div class="One">
     <form asp-controller="Reservations" asp-action="ProcessFirstStepReservationOnTop">
-        <div class="form-row gradient-groupbox" style="padding: 5px 5px 3px 3px; border-radius: 5px;">
+        <div class="form-row gradient-groupbox" style="padding: 5px 5px 3px 20px; border-radius: 5px;">
             <div class="form-group col-md-3">
                 <label asp-for="From" class="control-label" for="inputFrom">From</label>
                 <input asp-for="From" class="form-control" id="inputFrom">
@@ -33,12 +33,12 @@
                 <span asp-validation-for="To" class="text-danger"></span>
             </div>
             <div class="form-group col-md-2">
-                <label asp-for="DepartureDate" class="control-label"></label>
+                <label asp-for="DepartureDate" class="control-label">Departure Date</label>
                 <input asp-for="DepartureDate" class="form-control" type="date">
                 <span asp-validation-for="DepartureDate" class="text-danger"></span>
             </div>
             <div class="form-group col-md-2">
-                <label asp-for="ReturnDate" class="control-label"></label>
+                <label asp-for="ReturnDate" class="control-label">Return Date</label>
                 <input asp-for="ReturnDate" class="form-control" type="date">
                 <span asp-validation-for="ReturnDate" class="text-danger"></span>
             </div>
@@ -47,16 +47,18 @@
                 <input asp-for="People" class="form-control" />
                 <span asp-validation-for="People" class="text-danger"></span>
             </div>
-            <div class="form-group col-md-1 justify-content-end">
-                <input style="align-self: baseline;" type="submit" value="Go!" class="btn btn-light" />
+            <div class="form-group col-md-1">
+                <input style="height: 72px; line-height:60px;" type="submit" value="Go!" class="btn btn-light" />
             </div>
         </div>
     </form>
 </div>
 
 <div class="white-groupbox" style="margin-top: 30px; padding: 15px 15px 15px 15px; border-radius: 5px;">
-    <table class="table">
-        <thead>
+    <h2 style="text-align:center">From @Model.From To @Model.To</h2>
+    <br />
+    <table class="table-striped table table-hover" style="border: solid 2px purple;">
+        <thead style="color: #fff; background-color: purple; border: solid 3px purple;">
             <tr>
                 <th>
                     Date
@@ -70,14 +72,12 @@
                 <th></th>
             </tr>
         </thead>
-        <br />
-        <h2>From @Model.From To @Model.To</h2>
         <tbody>
             @foreach (FlightViewModel item in Flights.GoingFlights)
             {
                 <tr>
                     <td>
-                        @item.Departure.Date.ToLongDateString();
+                        @item.Departure.Date.ToLongDateString()
                     </td>
                     <td>
                         @item.Departure.ToShortTimeString()
@@ -86,40 +86,48 @@
                         @item.Arrival.ToShortTimeString()
                     </td>
                     <td>
-                        <a asp-controller="Reservations" asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                        @{
-                            if ((int)this.ViewData["ChooseGoing"] == item.Id)
-                            {
-                                <a asp-route-id="@item.Id" asp-action="BookForGoind">Booked</a>@*asp-route-id="@item.Id"*@
-                            }
-                            else
-                            {
-                                <a asp-route-id="@item.Id" asp-action="BookForGoind">Book</a>@*asp-route-id="@item.Id"*@
-                            }
-
-                        }
+                        <div class="float-right">
+                            <form asp-controller="Reservations" asp-action="Details" asp-route-id=@item.Id>
+                                <input id="CRUDButton" style="margin-left: 8px; margin-right: 8px" type="submit" value="Details" class="btn btn-primary btn-sm" />
+                            </form>
+                        </div>
+                        <div class="float-right">
+                            <form asp-controller="Reservations" asp-action="BookForGoind" asp-route-id=@item.Id>
+                                @{
+                                    if ((int)this.ViewData["ChooseGoing"] == item.Id)
+                                    {
+                                        <input id="CRUDButton" style="margin-left: 8px; margin-right: 8px; opacity:0.8;" type="submit" value="Booked" class="btn disabled btn-primary btn-sm" />
+                                    }
+                                    else
+                                    {
+                                        <input id="CRUDButton" style="margin-left: 8px; margin-right: 8px" type="submit" value="Book" class="btn btn-primary btn-sm" />
+                                    }
+                                }
+                            </form>
+                        </div>
                     </td>
                 </tr>
             }
         </tbody>
-        <ul class="pagination">
-            @for (var i = 1; i <= Flights.PagerOnGoing.PagesCount; i++)
-            {
-                <li class="page-item @(i == Flights.PagerOnGoing.CurrentPage ? "active" : "")">
-                    <a asp-route-Pager.CurrentPage="@i" class="page-link">@i</a>
-                </li>
-            }
-        </ul>
     </table>
-
+    <ul class="pagination">
+        @for (var i = 1; i <= Flights.PagerOnGoing.PagesCount; i++)
+        {
+            <li class="page-item @(i == Flights.PagerOnGoing.CurrentPage ? "active" : "")">
+                <a asp-route-Pager.CurrentPage="@i" class="page-link">@i</a>
+            </li>
+        }
+    </ul>
 </div>
 
 @{
     if (ModelClass.OneWay == false)
     {
         <div class="white-groupbox" style="margin-top: 30px; padding: 15px 15px 15px 15px; border-radius: 5px;">
-            <table class="table">
-                <thead>
+            <h2 style="text-align:center">From @Model.To To @Model.From</h2>
+            <br />
+            <table class="table-striped table table-hover" style="border: solid 2px purple;">
+                <thead style="color: #fff; background-color: purple; border: solid 3px purple;">
                     <tr>
                         <th>
                             Date
@@ -133,14 +141,12 @@
                         <th></th>
                     </tr>
                 </thead>
-                <br />
-                <h2>From @Model.To To @Model.From</h2>
                 <tbody>
                     @foreach (FlightViewModel item in Flights.ReturningFlights)
                     {
                         <tr>
                             <td>
-                                @item.Departure.Date.ToLongDateString();
+                                @item.Departure.Date.ToLongDateString()
                             </td>
                             <td>
                                 @item.Departure.ToShortTimeString()
@@ -149,45 +155,53 @@
                                 @item.Arrival.ToShortTimeString()
                             </td>
                             <td>
-                                <a asp-controller="Reservations" asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                                @{
-                                    if ((int)this.ViewData["ChooseReturning"] == item.Id)
-                                    {
-                                        <a asp-route-id="@item.Id" asp-action="BookForReturning">Booked</a>@*asp-route-id="@item.Id"*@
-                                    }
-                                    else
-                                    {
-                                        <a asp-route-id="@item.Id" asp-action="BookForReturning">Book</a>@*asp-route-id="@item.Id"*@
-                                    }
+                                <div class="float-right">
+                                    <form asp-controller="Reservations" asp-action="Details" asp-route-id=@item.Id>
+                                        <input id="CRUDButton" style="margin-left: 8px; margin-right: 8px" type="submit" value="Details" class="btn btn-primary btn-sm" />
+                                    </form>
+                                </div>
+                                <div class="float-right">
+                                    <form asp-controller="Reservations" asp-action="BookForReturning" asp-route-id=@item.Id>
+                                        @{
+                                            if ((int)this.ViewData["ChooseReturning"] == item.Id)
+                                            {
+                                                <input id="CRUDButton" style="margin-left: 8px; margin-right: 8px;opacity:0.8;" type="submit" value="Booked" class="btn  btn-primary btn-sm" />
+                                            }
+                                            else
+                                            {
+                                                <input id="CRUDButton" style="margin-left: 8px; margin-right: 8px" type="submit" value="Book" class="btn btn-primary btn-sm" />
+                                            }
 
-                                }
+                                        }
+                                    </form>
+                                </div>
                             </td>
                         </tr>
                     }
                 </tbody>
-                <ul class="pagination">
-                    @for (var i = 1; i <= Flights.PagerOnReturning.PagesCount; i++)
-                    {
-                        <li class="page-item @(i == Flights.PagerOnReturning.CurrentPage ? "active" : "")">
-                            <a asp-route-Pager.CurrentPage="@i" class="page-link">@i</a>
-                        </li>
-                    }
-                </ul>
             </table>
+            <ul class="pagination">
+                @for (var i = 1; i <= Flights.PagerOnReturning.PagesCount; i++)
+                {
+                    <li class="page-item @(i == Flights.PagerOnReturning.CurrentPage ? "active" : "")">
+                        <a asp-route-Pager.CurrentPage="@i" class="page-link">@i</a>
+                    </li>
+                }
+            </ul>
         </div>
     }
 
     if (ModelClass.OneWay && FlightsClass.GoingPlaneId != 0 || FlightsClass.GoingPlaneId != 0
                 && FlightsClass.ReturningPlaneId != 0)
     {
-        <div class="One">
-            <form asp-controller="Reservations" asp-action="RegisterPassengers">
-
-                <div class="form-group col-md-1 justify-content-end">
-                    <input style="align-self: baseline;" type="submit" value="Go!" class="btn btn-light" />
-                </div>
-            </form>
+        <div>
+            <div class="white-groupbox col-2" style="margin-top:20px;">
+                <form asp-controller="Reservations" asp-action="RegisterPassengers">
+                    <div class="form-group text-center">
+                        <input id="CRUDButton" type="submit" value="Continue" class="btn btn-primary" />
+                    </div>
+                </form>
+            </div>
         </div>
     }
-
 }

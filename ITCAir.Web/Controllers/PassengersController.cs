@@ -145,7 +145,7 @@ namespace ITCAir.Web.Controllers
                 $" Arrive at:{returningFlight.Arrival.ToShortTimeString()} {EmailFormating.NewLine}");
             }
             Random generator = new Random();
-            int generatedToken = int.Parse(generator.Next(0, 999999).ToString("D6"));
+            int generatedToken = int.Parse(generator.Next(1, 999999).ToString("D6"));
             sb.AppendLine($"Your Confirmation code is: {EmailFormating.NewLine}");
             sb.AppendLine($"{generatedToken}");
             ConfirmEmail.ValidationToken = generatedToken;

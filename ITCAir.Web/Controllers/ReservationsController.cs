@@ -49,6 +49,11 @@ namespace ITCAir.Web.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (model.DepartureDate > model.ReturnDate)
+                {
+                    ViewData["Error"] = "Arrival cannot be before Departure!";
+                    return View("Index");
+                }
                 ModelClass.PassengersCount = model.People;
                 ModelClass.OneWay = oneWay;
                 ModelClass.SecondModel = model;
@@ -117,6 +122,12 @@ namespace ITCAir.Web.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (model.DepartureDate > model.ReturnDate)
+                {
+                    ViewData["Error"] = "Arrival cannot be before Departure!";
+                    return View("ReservationsFlights", model);
+
+                }
                 ModelClass.PassengersCount = model.People;
                 ModelClass.SecondModel = model;
                 GetViewData(model);

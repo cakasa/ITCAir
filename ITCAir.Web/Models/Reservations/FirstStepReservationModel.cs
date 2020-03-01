@@ -16,9 +16,13 @@ namespace ITCAir.Web.Models.Reservations
         public string To { get; set; }
 
         [Required]
+        [DataType(DataType.Time, ErrorMessage = "Enter a valid time")]
         [UpcomingDate]
         public DateTime DepartureDate { get; set; }
 
+        [Required]
+        [DataType(DataType.Time, ErrorMessage = "Enter a valid time")]
+        [UpcomingDate]
         public DateTime ReturnDate { get; set; }
 
         public bool OneWay { get; set; }

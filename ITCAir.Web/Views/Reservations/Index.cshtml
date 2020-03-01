@@ -2,90 +2,99 @@
 
 @{
     ViewData["Title"] = "Index";
+    if (ViewData["Error"] == null)
+    {
+        ViewData["Error"] = "";
+    }
 }
 
-    <div class="row">
-        <div class="col-md-5 gradient-groupbox">
-            <h2 style=" text-align: left;
+<div class="row">
+    <div class="col-md-5 gradient-groupbox">
+        <h2 style=" text-align: left;
         color: white">
-                Book a flight
-            </h2>
-            <hr style="background: radial-gradient(#fff, #c82076)" />
-            <form asp-controller="Reservations" asp-action="ProcessFirstStepReservation">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <div class="form-group">
-                    <label asp-for="From" title="From" class="control-label"></label>
+            Book a flight
+        </h2>
+        <hr style="background: radial-gradient(#fff, #c82076)" />
+        <form asp-controller="Reservations" asp-action="ProcessFirstStepReservation">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="From" title="From" class="control-label"></label>
 
-                    @*<select asp-for="From" class="form-control" onchange="FillInThePus();">
+                @*<select asp-for="From" class="form-control" onchange="FillInThePus();">
                         <option>Burgas</option>
                         <option>Varna</option>
                         <option>Sofia</option>
                     </select>*@
 
-                     <input asp-for="From" class="form-control" /> 
-                    <span asp-validation-for="From" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="To" class="control-label"></label>
+                <input asp-for="From" class="form-control" />
+                <span asp-validation-for="From" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="To" class="control-label"></label>
 
-                    @*<select asp-for="To" class="form-control"></select>*@
-                     <input asp-for="To" class="form-control" /> 
-                    <span asp-validation-for="To" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="DepartureDate" class="control-label"></label>
-                    @Html.EditorFor(model => model.DepartureDate, new { htmlAttributes = new { @class = "form-control", @type = "date" } })
-                    <span asp-validation-for="DepartureDate" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="ReturnDate" class="control-label"></label>
-                    @Html.EditorFor(model => model.ReturnDate, new { htmlAttributes = new { @class = "form-control", @type = "date" } })
-                    <span asp-validation-for="ReturnDate" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label for="oneWay" asp-for="OneWay" class="control-label">One Way?  </label>
-                    @Html.CheckBox("oneWay", false)
-                </div>
-                <div class="form-group">
-                    <label asp-for="People" class="control-label"></label>
-                    <input asp-for="People" class="form-control" />
-                    <span asp-validation-for="People" class="text-danger"></span>
-                </div>
-                <div class="form-group" style="text-align:center">
-                    <input type="submit" value="Go!" class="btn btn-light" />
-                </div>
-            </form>
-        </div>
-        <div class="col-md-1">
-        </div>
-        <div class="col-md-6 white-groupbox text-center">
-            <a href="@Url.Action("Index", "Reservations")">
-                <img src="~/imgs/logo.png" title="ITCAir" style="height:auto; width:80%;" />
-            </a>
-            <h2>Description</h2>
-        </div>
+                @*<select asp-for="To" class="form-control"></select>*@
+                <input asp-for="To" class="form-control" />
+                <span asp-validation-for="To" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DepartureDate" class="control-label"></label>
+                @Html.EditorFor(model => model.DepartureDate, new { htmlAttributes = new { @class = "form-control", @type = "date" } })
+                <span asp-validation-for="DepartureDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ReturnDate" class="control-label"></label>
+                @Html.EditorFor(model => model.ReturnDate, new { htmlAttributes = new { @class = "form-control", @type = "date" } })
+                <span asp-validation-for="ReturnDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="oneWay" asp-for="OneWay" class="control-label">One Way?  </label>
+                @Html.CheckBox("oneWay", false)
+            </div>
+            <div class="form-group">
+                <label asp-for="People" class="control-label"></label>
+                <input asp-for="People" class="form-control" />
+                <span asp-validation-for="People" class="text-danger"></span>
+            </div>
+            <div class="form-group" style="text-align:center">
+                <input type="submit" value="Go!" class="btn btn-light" />
+            </div>
+            @{
+                if (!string.IsNullOrEmpty(ViewData["Error"].ToString()))
+                {
+                    <p class="text-danger" style="color:white; text-align:center; padding-bottom:10px">@ViewData["Error"]</p>
+                }
+            }
+        </form>
     </div>
+    <div class="col-md-1">
+    </div>
+    <div class="col-md-6 white-groupbox text-center">
+        <a href="@Url.Action("Index", "Reservations")">
+            <img src="~/imgs/logo.png" title="ITCAir" style="height:auto; width:80%;" />
+        </a>
+        <h2>Description</h2>
+    </div>
+</div>
 
 <!-- JavaScript -->
 <script>
-function FillInThePus()
-{
-    // ajax
-    //$.get( "destinatyions.json", function( data ) {
-    //    alert( data );
-    //});
+    function FillInThePus() {
+        // ajax
+        //$.get( "destinatyions.json", function( data ) {
+        //    alert( data );
+        //});
 
-    let dropdown = $('#To');
-    dropdown.empty();
+        let dropdown = $('#To');
+        dropdown.empty();
 
-    // Populate dropdown with list of provinces
-    $.getJSON("destinatyions.json", function (data) {
-        $.each(data, function (key, entry) {
-            dropdown.append($('<option></option>').attr('value', entry.name).text(entry.name));
-        })
-    });
+        // Populate dropdown with list of provinces
+        $.getJSON("destinatyions.json", function (data) {
+            $.each(data, function (key, entry) {
+                dropdown.append($('<option></option>').attr('value', entry.name).text(entry.name));
+            })
+        });
 
-};
+    };
 </script>
 
 @section Scripts {

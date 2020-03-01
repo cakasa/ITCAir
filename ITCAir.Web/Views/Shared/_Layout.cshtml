@@ -5,14 +5,17 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"]</title>
+    <link href="~/imgs/icon.ico" rel="shortcut icon" type="image/x-icon" />
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
-<body style="background: url('@Url.Content("~/sunset.jpg")'); background-size: cover;">
+<body style="background: url('@Url.Content("~/imgs/sunset.jpg")'); background-size: cover;">
     <header style="background-color: #eee">
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm border-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand" style="color:purple" asp-controller="Reservations" asp-action="Index">ITCAir</a>
+                <a href="@Url.Action("Index", "Reservations")" class="navbar-brand">
+                    <img src="~/imgs/logo.png" title="ITCAir" style="height:30px; width:85px;"/>
+                </a>
                 <div>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                             aria-expanded="false" aria-label="Toggle navigation">

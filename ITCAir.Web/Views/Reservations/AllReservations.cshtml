@@ -14,7 +14,7 @@
     </div>
     <div class="row">
         <div class="row col-10" style="margin-left:30px;">
-            <form class="row" style="margin-right:20px;" asp-action="Filter">
+            <form class="row" style="margin-right:10px;" asp-action="Filter">
                 <div class="form-group">
                     <select asp-for="FilterType" asp-items="@Html.GetEnumSelectList<ReservationFilterType>()" class="form-control">
                     </select>
@@ -30,13 +30,13 @@
                 if (ReservationsFilteringAndPaging.FilterType != ReservationFilterType.None)
                 {
 
-                    <div class="filter-box form-group no-bottom-margin" style="margin-right:5px; padding: 0px 5px 0px 5px; vertical-align:central">
-                        <p class="no-bottom-margin" style="vertical-align:central; color:white">@ReservationsFilteringAndPaging.FilterType = @ReservationsFilteringAndPaging.Filter</p>
+                    <div class="filter-box form-group no-bottom-margin" style="margin-right:5px; ; height: 36px; padding: 0px 5px 0px 5px;">
+                        <p style="color:white; line-height:30px;">@ReservationsFilteringAndPaging.FilterType : @ReservationsFilteringAndPaging.Filter</p>
                     </div>
 
                     <form asp-action="ClearFilter">
                         <div class="form-group no-bottom-margin" style="vertical-align:central">
-                            <input type="submit" id="CRUDButton" class="btn-sm btn-light" value="Clear Filter" />
+                            <input type="submit" id="CRUDButton" class="btn btn-light" value="Clear Filter" />
                         </div>
                     </form>
                 }

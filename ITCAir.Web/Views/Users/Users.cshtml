@@ -14,7 +14,7 @@
     </div>
     <div class="row">
         <div class="row col-10" style="margin-left:30px;">
-            <form class="row" style="margin-right:20px;" asp-action="Filter">
+            <form class="row" style="margin-right:10px;" asp-action="Filter">
                 <div class="form-group">
                     <select asp-for="FilterType" asp-items="@Html.GetEnumSelectList<UserFilterType>()" class="form-control">
                     </select>
@@ -31,13 +31,13 @@
                 if (UserFilteringAndPaging.FilterType != UserFilterType.None)
                 {
 
-                    <div class="filter-box form-group no-bottom-margin" style="margin-right:5px; padding: 0px 5px 0px 5px; vertical-align:central">
-                        <p class="no-bottom-margin" style="vertical-align:central; color:white">@UserFilteringAndPaging.FilterType = @UserFilteringAndPaging.Filter</p>
+                    <div class="filter-box form-group no-bottom-margin" style="margin-right:5px; height: 36px; padding: 0px 5px 0px 5px; vertical-align:central">
+                        <p class="no-bottom-margin" style="line-height:30px; color:white">@UserFilteringAndPaging.FilterType = @UserFilteringAndPaging.Filter</p>
                     </div>
 
                     <form asp-action="ClearFilter">
                         <div class="form-group no-bottom-margin" style="vertical-align:central">
-                            <input type="submit" id="CRUDButton" class="btn-sm btn-light" value="Clear Filter" />
+                            <input type="submit" id="CRUDButton" class="btn btn-light" value="Clear Filter" />
                         </div>
                     </form>
                 }
@@ -117,7 +117,7 @@
                 </li>
             }
         </ul>
-        <ul style="margin-right:0px;" class="pagination text-right col-2">
+        <ul style="line-height:30px;ight:0px;" class="pagination text-right col-2">
             <li class="page-item @(UserFilteringAndPaging.Pager.PageSize == 10 ? "active" : "")">
                 <a asp-action="ChangePageSize" asp-route-pageSize="10" class="page-link">10</a>
             </li>

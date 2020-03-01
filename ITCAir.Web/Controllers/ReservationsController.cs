@@ -88,7 +88,7 @@ namespace ITCAir.Web.Controllers
                 Departure = c.Departure,
                 Arrival = c.Arrival
 
-            }).Where(c => c.From == model.To && c.To == model.From).ToList();
+            }).Where(c => c.From == model.To && c.To == model.From && c.Departure >= model.DepartureDate).ToList();
 
             now.ReturningFlights = items;
             now.PagerOnReturning.PagesCount = (int)Math.Ceiling(context.Flights.Count() / (double)PageSize);
@@ -107,7 +107,7 @@ namespace ITCAir.Web.Controllers
                 Departure = c.Departure,
                 Arrival = c.Arrival
 
-            }).Where(c => c.From == model.From && c.To == model.To).ToList();
+            }).Where(c => c.From == model.From && c.To == model.To && c.Departure>=model.DepartureDate).ToList();
 
             now.GoingFlights = items;
             now.PagerOnGoing.PagesCount = (int)Math.Ceiling(context.Flights.Count() / (double)PageSize);
@@ -117,6 +117,7 @@ namespace ITCAir.Web.Controllers
         {
             if (ModelState.IsValid)
             {
+                ModelClass.PassengersCount = model.People;
                 ModelClass.SecondModel = model;
                 GetViewData(model);
                 return View("ReservationsFlights", model);
@@ -205,6 +206,7 @@ namespace ITCAir.Web.Controllers
                     this.context.Reservations.First(r => r.Id == ConfirmEmail.ReservationIdReturning).IsConfirmed = true;
                     this.context.SaveChanges();
                 }
+                ConfirmEmail.EmailConfirmed = true;
             }
             return RedirectToAction("ThanksForReservation", "Passengers");
         }

@@ -125,24 +125,24 @@ namespace ITCAir.Web.Controllers
         private  StringBuilder FormatBody()
         {
             StringBuilder sb = new StringBuilder();
-            sb.AppendLine($"Passangers Registered {EmailFormating.NewLine}");
+            sb.AppendLine($"Passangers Registered: {EmailFormating.NewLine}");
 
             foreach (var passenger in ModelClass.Passengers)
             {
-                sb.AppendLine($"First Name:{passenger.FirstName} Last Name:{passenger.LastName} Ticket Type:{passenger.Ticket} {EmailFormating.NewLine}");
+                sb.AppendLine($"First name:{passenger.FirstName} Last name:{passenger.LastName} Ticket type:{passenger.Ticket} {EmailFormating.NewLine}");
             }
 
-            sb.AppendLine($"Going Flight:{EmailFormating.NewLine}");
+            sb.AppendLine($"Going flight:{EmailFormating.NewLine}");
             var flightFrom = this.context.Flights.First(f => f.Id == FlightsClass.GoingPlaneId);
-            sb.AppendLine($"Flight From:{flightFrom.From} To:{flightFrom.To} Depart At:{flightFrom.Departure}" +
-                $" Arrive At:{flightFrom.Arrival} {EmailFormating.NewLine}");
+            sb.AppendLine($"Flight from:{flightFrom.From} To:{flightFrom.To} Depart at:{flightFrom.Departure.ToShortTimeString()}" +
+                $" Arrive At:{flightFrom.Arrival.ToShortTimeString()} {EmailFormating.NewLine}");
 
             if (!ModelClass.OneWay)
             {
-                sb.AppendLine($"Returning Flight:{EmailFormating.NewLine}");
+                sb.AppendLine($"Returning flight:{EmailFormating.NewLine}");
                 var returningFlight = this.context.Flights.First(f => f.Id == FlightsClass.ReturningPlaneId);
-                sb.AppendLine($"Flight From:{returningFlight.From} To:{returningFlight.To} Depart At:{returningFlight.Departure}" +
-                $" Arrive At:{returningFlight.Arrival} {EmailFormating.NewLine}");
+                sb.AppendLine($"Flight from:{returningFlight.From} To:{returningFlight.To} Depart at:{returningFlight.Departure.ToShortTimeString()}" +
+                $" Arrive at:{returningFlight.Arrival.ToShortTimeString()} {EmailFormating.NewLine}");
             }
             Random generator = new Random();
             int generatedToken = int.Parse(generator.Next(0, 999999).ToString("D6"));

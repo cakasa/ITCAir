@@ -2,6 +2,11 @@
 
 @{
     ViewData["Title"] = "ITCAir";
+    if (ViewData["Error"] == null)
+    {
+        ViewData["Error"] = "";
+    }
+
 }
 
 <div class="row">
@@ -17,10 +22,10 @@
                 <label asp-for="From" title="From" class="control-label"></label>
 
                 @*<select asp-for="From" class="form-control" onchange="FillInThePus();">
-                        <option>Burgas</option>
-                        <option>Varna</option>
-                        <option>Sofia</option>
-                    </select>*@
+                <option>Burgas</option>
+                <option>Varna</option>
+                <option>Sofia</option>
+            </select>*@
 
                 <input asp-for="From" class="form-control" />
                 <span asp-validation-for="From" class="text-danger"></span>
@@ -54,6 +59,12 @@
             <div class="form-group" style="text-align:center">
                 <input type="submit" value="Go!" class="btn btn-light" />
             </div>
+            @{
+                if (!string.IsNullOrEmpty(ViewData["Error"].ToString()))
+                {
+                    <p class="text-danger" style="color:white; text-align:center; padding-bottom:10px">@ViewData["Error"]</p>
+                }
+            }
         </form>
     </div>
     <div class="col-md-1">

@@ -3,6 +3,10 @@
 @using ITCAir.Web.Models.Flights
 @inject AllFlightsForReservationsViewModel Flights
 @{
+     if (ViewData["Error"] == null)
+    {
+        ViewData["Error"] = "";
+    }
     if (ViewData["ChooseGoing"] == null)
     {
         ViewData["ChooseGoing"] = -1;
@@ -47,6 +51,12 @@
                 <input asp-for="People" class="form-control" />
                 <span asp-validation-for="People" class="text-danger"></span>
             </div>
+            @{
+                if (!string.IsNullOrEmpty(ViewData["Error"].ToString()))
+                {
+                    <p class="text-danger" style="color:white; text-align:center; padding-bottom:10px">@ViewData["Error"]</p>
+                }
+            }
             <div class="form-group col-md-1">
                 <input style="height: 72px; line-height:60px;" type="submit" value="Go!" class="btn btn-light" />
             </div>

@@ -31,6 +31,7 @@ namespace ITCAir.Web.Controllers
             ClearStaticClass();
             return View();
         }
+
         private void ClearStaticClass()
         {
             ModelClass.OneWay = default;

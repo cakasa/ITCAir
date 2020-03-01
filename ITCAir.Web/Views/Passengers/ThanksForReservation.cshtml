@@ -1,30 +1,47 @@
 ﻿@model ITCAir.Web.Models.Reservations.EmailConfirmViewModel
 @using ITCAir.Web.GlobalConstants
 @{
-    ViewData["Title"] = "ThanksForReservation";
+    ViewData["Title"] = "Thank you for your reservation";
 }
 
-<h1>Thanks for your reservation</h1>
+    <div class="white-groupbox text-center">
+        <h2>Thank you for your reservation</h2>
+        @if (ConfirmEmail.EmailConfirmed)
+        {
+            <hr />
+            <p>Your Reservation has been confirmed</p>
+            <br />
+            <form method = "get" asp-controller="Reservations" asp-action="Index">
+                <div class="form-group" style="vertical-align:central">
+                    <input type="submit" id="CRUDButton" class="btn btn-light" value="Return to Home Page" />
+                </div>
+            </form>
+        }
+    </div>
+
 @if (!ConfirmEmail.EmailConfirmed)
 {
+    <div class="row">
+        <div class="col-3"></div>
+        <div class="form-row gradient-groupbox col-6" style="margin-top:20px; padding: 10px 20px 5px 20px; border-radius: 10px;">
+            <div style="width:100%">
+                <h2 style="text-align:center; color:white;">Confirm your email</h2>
+                <hr />
 
-    <p>Please Confirm your reservation by your email</p>
-    <form asp-controller="Reservations" asp-action="CheckEmailConfirm">
-        <div class="form-row gradient-groupbox" style="padding: 10px 10px 5px 5px; border-radius: 10px;">
-            <div class="form-group col-md-3">
-                <label asp-for="EnteredNumber" class="control-label" for="inputFrom">6 Digit number</label>
-                <input asp-for="EnteredNumber" class="form-control" id="inputFirstName">
-                <span asp-validation-for="EnteredNumber" class="text-danger"></span>
-            </div>
-            <div class="form-group col-md-1 justify-content-end">
-                <input style="align-self: baseline;" type="submit" value="Confirm " class="btn btn-light" />
+                <form class="text-center" asp-controller="Reservations" asp-action="CheckEmailConfirm">
+                    <div class="row">
+                        <div class="col-2"></div>
+                        <div class="form-group col-8">
+                            <label style="text-align:center;" asp-for="EnteredNumber" class="control-label" for="inputFrom">Confirmation Code</label>
+                            <input asp-for="EnteredNumber" class="form-control" id="inputFirstName">
+                            <span asp-validation-for="EnteredNumber" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group text-center">
+                        <input type="submit" value="Submit Code" class="btn btn-light" />
+                    </div>
+                </form>
             </div>
         </div>
-    </form>
+    </div>
 }
-@if (ConfirmEmail.EmailConfirmed)
-{
-    <p>Reservation is Confirmed</p>
-    <a class="nav-link text-dark" asp-area="" asp-controller="Reservations" asp-action="Index">Return to Home Page</a>
-}
-

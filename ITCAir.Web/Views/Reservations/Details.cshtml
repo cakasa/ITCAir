@@ -1,56 +1,73 @@
 ﻿@using ITCAir.Web.Models.Flights
 @model FlightDetailsViewModel
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Flight Details";
 }
 
-    <div class="white-groupbox col-md-5" style="padding-left:10px;">
-        <h4>Details</h4>
-        <hr />
-        <dl class="row">
-            <dt class="col-sm-5">
-                @Html.DisplayNameFor(model => model.From)
-            </dt>
-            <dd class="col-sm-7">
-                @Html.DisplayFor(model => model.From)
-            </dd>
-            <dt class="col-sm-5">
-                Date
-            </dt>
-            <dd class="col-sm-7">
-                @Model.DepartureTime.Date.ToLongDateString()
-            </dd>
-            <dt class="col-sm-5">
-                Departure Time
-            </dt>
-            <dd class="col-sm-7">
-                @Model.DepartureTime.ToShortTimeString()
-            </dd>
-            <dt class="col-sm-5">
-                Arrival Time
-            </dt>
-            <dd class="col-sm-7">
-                @Model.Arrival.ToShortTimeString()
-            </dd>
-            <dt class="col-sm-5">
-                Capacity Economy
-            </dt>
-            <dd class="col-sm-7">
-                @Model.CapacityEconomy
-            </dd>
-            <dt class="col-sm-5">
-                Capacity Business
-            </dt>
-            <dd class="col-sm-7">
-                @Model.CapacityBusiness
-            </dd>
-            <dt class="col-sm-5">
-                Pilot Name
-            </dt>
-            <dd class="col-sm-7">
-                @Model.PilotName
-            </dd>
-        </dl>
-            <a asp-route-id="@Model.Id" asp-action="RedirectToPassangers">Book</a> |
-            <a asp-controller="Reservations" asp-action="ReturnFromEdit">Back to List</a>
-    </div>
+<div class="white-groupbox" style="padding-left:10px; padding-right:10px;">
+    <h4 class="text-center">Flight Details</h4>
+    <hr />
+    <table class="table-striped table table-hover" style="border: solid 2px purple;">
+        <thead style="color: #fff; background-color: purple; border: solid 3px purple;">
+            <tr>
+                <th>
+                    From
+                </th>
+                <th>
+                    To
+                </th>
+                <th>
+                    Departure
+                </th>
+                <th>
+                    Arrival
+                </th>
+                <th>
+                    Pln. Id
+                </th>
+                <th>
+                    Pilot
+                </th>
+                <th>
+                    Ec.
+                </th>
+                <th>
+                    Bus.
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    @Model.From
+                </td>
+                <td>
+                    @Model.To
+                </td>
+                <td>
+                    @Model.DepartureTime
+                </td>
+                <td>
+                    @Model.Arrival
+                </td>
+                <td>
+                    @Model.PlaneId
+                </td>
+                <td>
+                    @Model.PilotName
+                </td>
+                <td>
+                    @Model.CapacityEconomy
+                </td>
+                <td>
+                    @Model.CapacityBusiness
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <form method="get" asp-controller="Reservations" asp-action="ReturnFromEdit">
+        <div class="form-group" style="text-align:center;">
+            <input formmethod="get" id="CRUDButton" type="submit" value="Back to List" class="btn btn-primary" />
+        </div>
+    </form>
+</div>

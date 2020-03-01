@@ -4,7 +4,7 @@
 @using ITCAir.Web.GlobalConstants
 
 @{
-    ViewData["Title"] = "Passangers Details";
+    ViewData["Title"] = "Passenger Details";
     int peopleToRegister = ModelClass.PassengersCount;
 
 }
@@ -31,47 +31,47 @@
             <h2 style="text-align:center; color:white">Passenger #@(i + 1)</h2>
             <hr />
             <form asp-controller="Passengers" asp-action="ProcessPassengerInfo">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div asp-validation-summary="All" class="text-danger"></div>
                 <div class="row">
-                    <div class="form-group col-md-3">
+                    <div class="form-group col-md-4">
                         <label asp-for="FirstName" class="control-label" for="inputFrom">First Name</label>
                         <input asp-for="FirstName" class="form-control">
                         <span asp-validation-for="FirstName" class="text-danger"></span>
                     </div>
-                    <div class="form-group col-md-3">
+                    <div class="form-group col-md-4">
                         <label asp-for="MiddleName" class="control-label" for="inputTo">Middle Name</label>
                         <input asp-for="MiddleName" class="form-control" id="inputMiddleName">
                         <span asp-validation-for="MiddleName" class="text-danger"></span>
                     </div>
-                    <div class="form-group col-md-3">
+                    <div class="form-group col-md-4">
                         <label asp-for="LastName" class="control-label">Last Name</label>
                         <input asp-for="LastName" class="form-control" id="inputLastName">
                         <span asp-validation-for="LastName" class="text-danger"></span>
                     </div>
-                    <div class="form-group col-md-3">
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-4">
                         <label asp-for="Egn" class="control-label">Personal Id</label>
                         <input asp-for="Egn" class="form-control" id="inputEgn">
                         <span asp-validation-for="Egn" class="text-danger"></span>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="form-group col-md-3">
+                    <div class="form-group col-md-2">
                         <label asp-for="PhoneNumber" class="control-label">Phone</label>
                         <input asp-for="PhoneNumber" class="form-control" id="inputPhone" />
                         <span asp-validation-for="PhoneNumber" class="text-danger"></span>
                     </div>
-                    <div class="form-group col-md-3">
+                    <div class="form-group col-md-2">
                         <label asp-for="Nationality" class="control-label"></label>
                         <input asp-for="Nationality" class="form-control" id="inputNationality" />
                         <span asp-validation-for="Nationality" class="text-danger"></span>
                     </div>
-                    <div class="form-group col-md-3">
+                    <div class="form-group col-md-2">
                         <label asp-for="Ticket" class="control-label">Ticket Type</label>
                         @Html.DropDownList("Ticket", Html.GetEnumSelectList<TicketType>(), new { @class = "form-control" })
                         <span asp-validation-for="Ticket" class="text-danger"></span>
                     </div>
-                    <div class="form-group col-md-3 align-text-bottom">
-                        <input type="submit" value="Register" class="btn btn-light" />
+                    <div class="form-group col-md-2">
+                        <input style="height:100%; width:100%" type="submit" value="Register" class="btn btn-light" />
                     </div>
                 </div>
             </form>

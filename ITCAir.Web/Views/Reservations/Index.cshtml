@@ -1,91 +1,107 @@
 ﻿@model ITCAir.Web.Models.Reservations.FirstStepReservationModel
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "ITCAir";
 }
 
-    <div class="row">
-        <div class="col-md-5 gradient-groupbox">
-            <h2 style=" text-align: left;
+<div class="row">
+    <div class="col-md-5 gradient-groupbox">
+        <h2 style=" text-align: left;
         color: white">
-                Book a flight
-            </h2>
-            <hr style="background: radial-gradient(#fff, #c82076)" />
-            <form asp-controller="Reservations" asp-action="ProcessFirstStepReservation">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <div class="form-group">
-                    <label asp-for="From" title="From" class="control-label"></label>
+            Book a flight
+        </h2>
+        <hr style="background: radial-gradient(#fff, #c82076)" />
+        <form asp-controller="Reservations" asp-action="ProcessFirstStepReservation">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="From" title="From" class="control-label"></label>
 
-                    @*<select asp-for="From" class="form-control" onchange="FillInThePus();">
+                @*<select asp-for="From" class="form-control" onchange="FillInThePus();">
                         <option>Burgas</option>
                         <option>Varna</option>
                         <option>Sofia</option>
                     </select>*@
 
-                     <input asp-for="From" class="form-control" /> 
-                    <span asp-validation-for="From" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="To" class="control-label"></label>
+                <input asp-for="From" class="form-control" />
+                <span asp-validation-for="From" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="To" class="control-label"></label>
 
-                    @*<select asp-for="To" class="form-control"></select>*@
-                     <input asp-for="To" class="form-control" /> 
-                    <span asp-validation-for="To" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="DepartureDate" class="control-label"></label>
-                    @Html.EditorFor(model => model.DepartureDate, new { htmlAttributes = new { @class = "form-control", @type = "date" } })
-                    <span asp-validation-for="DepartureDate" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="ReturnDate" class="control-label"></label>
-                    @Html.EditorFor(model => model.ReturnDate, new { htmlAttributes = new { @class = "form-control", @type = "date" } })
-                    <span asp-validation-for="ReturnDate" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label for="oneWay" asp-for="OneWay" class="control-label">One Way?  </label>
-                    @Html.CheckBox("oneWay", false)
-                </div>
-                <div class="form-group">
-                    <label asp-for="People" class="control-label"></label>
-                    <input asp-for="People" class="form-control" />
-                    <span asp-validation-for="People" class="text-danger"></span>
-                </div>
-                <div class="form-group" style="text-align:center">
-                    <input type="submit" value="Go!" class="btn btn-light" />
-                </div>
-            </form>
-        </div>
-        <div class="col-md-1">
-        </div>
-        <div class="col-md-6 white-groupbox text-center">
+                @*<select asp-for="To" class="form-control"></select>*@
+                <input asp-for="To" class="form-control" />
+                <span asp-validation-for="To" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DepartureDate" class="control-label">Departure Date</label>
+                @Html.EditorFor(model => model.DepartureDate, new { htmlAttributes = new { @class = "form-control", @type = "date" } })
+                <span asp-validation-for="DepartureDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ReturnDate" class="control-label">Return Date</label>
+                @Html.EditorFor(model => model.ReturnDate, new { htmlAttributes = new { @class = "form-control", @type = "date" } })
+                <span asp-validation-for="ReturnDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="oneWay" asp-for="OneWay" class="control-label">One Way?  </label>
+                @Html.CheckBox("oneWay", false)
+            </div>
+            <div class="form-group">
+                <label asp-for="People" class="control-label"></label>
+                <input asp-for="People" class="form-control" />
+                <span asp-validation-for="People" class="text-danger"></span>
+            </div>
+            <div class="form-group" style="text-align:center">
+                <input type="submit" value="Go!" class="btn btn-light" />
+            </div>
+        </form>
+    </div>
+    <div class="col-md-1">
+    </div>
+    <div class="col-md-6 white-groupbox">
+        <div class="text-center">
             <a href="@Url.Action("Index", "Reservations")">
-                <img src="~/imgs/logo.png" title="ITCAir" style="height:auto; width:80%;" />
+                <img src="~/imgs/logo.png" title="ITCAir" style="height:auto; width:90%;" />
             </a>
-            <h2>Description</h2>
+            <hr/>
+            <h5>
+                ITCAir is one of the leading companies in flight bookings!
+            </h5>
+            <hr/>
+        </div>
+        <div >
+            <p style="vertical-align:central">
+                Wish to book a trip to the city of the Eiffel Tower? A desire to visit the Statue of Liberty?
+                Or perhaps you'd like to have a more exotic holiday in Hawaii? Or maybe you are here for business
+                purposes. No problem, here at ITCAir&copy;, we take care of all that! You just need to book! Everything
+                is just a few clicks away, what are you waiting for?
+            </p>
+            <p style="vertical-align:central">Enjoy the limitless possibilites of our company by booking a flight now! Your dream holiday is just a few clicks away, what are you waiting for?</p>
+            <p style="vertical-align:central">If you are an employee of the company, feel free to sign into your account and get information about all the flights and reservations, which you
+            can now conventiently filter!</p>
         </div>
     </div>
+</div>
 
 <!-- JavaScript -->
 <script>
-function FillInThePus()
-{
-    // ajax
-    //$.get( "destinatyions.json", function( data ) {
-    //    alert( data );
-    //});
+    function FillInThePus() {
+        // ajax
+        //$.get( "destinatyions.json", function( data ) {
+        //    alert( data );
+        //});
 
-    let dropdown = $('#To');
-    dropdown.empty();
+        let dropdown = $('#To');
+        dropdown.empty();
 
-    // Populate dropdown with list of provinces
-    $.getJSON("destinatyions.json", function (data) {
-        $.each(data, function (key, entry) {
-            dropdown.append($('<option></option>').attr('value', entry.name).text(entry.name));
-        })
-    });
+        // Populate dropdown with list of provinces
+        $.getJSON("destinatyions.json", function (data) {
+            $.each(data, function (key, entry) {
+                dropdown.append($('<option></option>').attr('value', entry.name).text(entry.name));
+            })
+        });
 
-};
+    };
 </script>
 
 @section Scripts {
